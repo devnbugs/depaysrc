@@ -2,8 +2,8 @@
 # Laravel Core
 # =========================
 /vendor
-/public/build
-/public/hot
+!/public/build
+!/public/hot
 
 # Environment files
 .env
@@ -21,15 +21,11 @@
 /storage/framework/views/*
 /storage/debugbar
 
-# Cache & Bootstrap
-/bootstrap/cache/*.php
-/bootstrap/cache/packages.php
-/bootstrap/cache/services.php
-
 # =========================
 # Composer
 # =========================
 composer.phar
+composer.lock
 
 # =========================
 # NPM / Node
@@ -37,15 +33,12 @@ composer.phar
 npm-debug.log
 yarn-error.log
 pnpm-debug.log
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
 # =========================
 # Vite / Frontend Build
 # =========================
-public/build
-public/hot
 
 # =========================
 # OS Files
