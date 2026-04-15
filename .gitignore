@@ -1,0 +1,96 @@
+# =========================
+# Laravel Core
+# =========================
+/vendor
+/public/build
+/public/hot
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.backup
+.env.production
+.env.staging
+
+# Laravel Storage
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/debugbar
+
+# Cache & Bootstrap
+/bootstrap/cache/*.php
+/bootstrap/cache/packages.php
+/bootstrap/cache/services.php
+
+# =========================
+# Composer
+# =========================
+composer.phar
+
+# =========================
+# NPM / Node
+# =========================
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# =========================
+# Vite / Frontend Build
+# =========================
+public/build
+public/hot
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode
+.idea
+*.swp
+*.swo
+
+# =========================
+# Testing
+# =========================
+.phpunit.result.cache
+
+# =========================
+# Logs & Debug
+# =========================
+*.log
+
+# =========================
+# Misc
+# =========================
+*.zip
+*.tar
+*.gz
+
+# =========================
+# Laravel Telescope / Debugbar (optional)
+# =========================
+/storage/telescope
+/storage/debugbar
+
+# =========================
+# SQLite (if used locally)
+# =========================
+database/database.sqlite
+
+# =========================
+# Backup files
+# =========================
+*.bak
+*.backup

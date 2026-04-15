@@ -1,0 +1,98 @@
+/* Add this to your CSS file or style tag */
+.new-wallet-balance {
+    text-align: center;
+}
+
+.new-balance-label {
+    display: inline-block;
+    background-color: #fff; /* Add a background color to cover the whole width */
+    padding: 12 0px; /* Adjust padding as needed */
+}
+
+.new-balance-label small {
+    font-size: 10px; /* Adjust the font size as needed */
+}
+
+.new-balance-amount {
+    margin-top: 20px; /* Adjust the spacing as needed */
+}
+px { margin-top: 1rem; margin-bottom: 0.625rem; color: #ebedf2 }
+hrx {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-top: 1px solid #191e3a;
+}
+/* Add this to your CSS file or style tag */
+.beta-user-icon {
+    width: 24px; /* Adjust the size as needed */
+    height: 24px; /* Adjust the size as needed */
+    vertical-align: middle;
+    margin-right: 8px; /* Adjust the spacing as needed */
+}
+
+
+/* ================================== */
+
+.inv-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+.button-container {
+  margin-right: 20px; /* Adjust the margin to control the spacing between buttons */
+}
+
+.inv-action a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px; /* Adjust the width as needed */
+  height: 45px; /* Adjust the height as needed */
+  border-radius: 25%;
+  text-decoration: none;
+  border: 1px solid #007bff; /* Adjust the border style as needed */
+  color: #007bff; /* Adjust the text color as needed */
+  font-weight: bold;
+}
+
+/* ==================================== */
+.invxa-action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  padding: 10px; /* Adjust the padding as needed */
+}
+
+.buttonxd-container a img {
+  color: #fffff; /* Set the filter to make the icon white */
+}
+
+.buttonxd-container {
+  width: calc(25% - 10px); /* Adjust the width as needed (25% to fit 4 buttons per row) */
+  margin: 5px; /* Adjust the margin as needed (reduced from 10px) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonxd-container a {
+  width: 50px; /* Adjust the width as needed */
+  height: 50px; /* Make the button square by setting the same width and height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #007bff; /* Adjust the border style as needed */
+  border-radius: 15px; /* Set the border-radius to 30px for rounded buttons */
+  text-decoration: none;
+  color: #007bff; /* Adjust the text color as needed */
+  font-weight: bold;
+}
+
+.buttonxdf-name {
+  margin-top: 5px; /* Adjust the spacing between the button and the text as needed */
+  font-size: 12px; /* Adjust the font size as needed */
+  color: #000000; /* Change text color to black */
+} 

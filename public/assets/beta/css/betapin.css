@@ -1,0 +1,10 @@
+.pin-input {
+    width: 2em; /* Adjust the width as needed */
+    text-align: center;
+    margin: 0 0.2em; /* Adjust the margin as needed */
+}
+
+/* Optional: Add some space between the input boxes */
+.input-group .form-control:not(:first-child) {
+    margin-left: 0.5em; /* Adjust the margin as needed */
+}

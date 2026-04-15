@@ -1,0 +1,18 @@
+.float {
+    position: fixed;
+    width: 40px; /* Reduce the width */
+    height: 40px; /* Reduce the height */
+    top: 40px; /* Adjust the top position */
+    left: 40px; /* Align to the left of the page */
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 20px; /* Reduce the font size */
+    box-shadow: 2px 2px 3px #999;
+    z-index: 10;
+}
+
+.my-float {
+    margin-top: 10px;
+}

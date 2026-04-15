@@ -1,0 +1,41 @@
+.ticker-container {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #000;
+    color: #ffffff;
+    padding: 7px 0;
+    font-size: 18px;
+    font-weight: bold;
+    position: initial;
+}
+
+.ticker-text {
+    display: inline-block;
+    padding-left: 100%; /* Start the text outside the view */
+    animation: scroll-text 10s linear infinite;
+}
+
+/* Animation keyframes */
+@keyframes scroll-text {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Price change colors */
+.price[data-change="up"] {
+    color: #4caf50; /* Green for up */
+}
+
+.price[data-change="down"] {
+    color: #f44336; /* Red for down */
+}
+.price-up {
+    color: green
+}
+.price-down {
+    color: red
+}

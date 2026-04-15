@@ -1,0 +1,86 @@
+/* Override SweetAlert styles */
+
+/* Container for the entire modal */
+.swal2-container {
+    font-family: 'Poppins', sans-serif; /* Change to your preferred font-family */
+}
+
+/* Modal window */
+.swal2-popup {
+    background-color: #fff; /* Change to your preferred background color */
+
+}
+
+/* Title */
+.swal2-title {
+    color: #333; /* Change to your preferred title color */
+    font-size: 25px; /* Adjust title font size */
+}
+
+/* Content text */
+.swal2-content {
+    color: #555; /* Change to your preferred content text color */
+    font-size: 16px; /* Adjust content text font size */
+    text-align: left; /* Adjust text alignment */
+}
+
+/* Icon */
+.swal2-icon {
+    color: #3498db; /* Change to your preferred icon color */
+}
+
+/* Buttons container */
+.swal2-actions {
+    margin-top: 20px; /* Adjust the top margin for buttons */
+}
+
+/* Customize Confirm button */
+.swal2-confirm {
+    background-color: #28a745; /* Set the background color */
+    color: #fff; /* Set the text color */
+    font-size: 16px; /* Set the font size */
+    padding: 10px 20px; /* Set padding */
+    border-radius: 10px; /* Set border-radius for rounded corners */
+}
+/* Customize Cancel button */
+.swal2-cancel {
+    background-color: #dc3545; /* Set the background color */
+    color: #fff; /* Set the text color */
+    font-size: 16px; /* Set the font size */
+    padding: 10px 20px; /* Set padding */
+    border-radius: 10px; /* Set border-radius for rounded corners */
+}
+
+/* Custom styles for logo or image */
+.swal2-custom-logo {
+    max-width: 100px; /* Adjust the maximum width of the logo or image */
+    max-height: 100px; /* Adjust the maximum height of the logo or image */
+    position: absolute;
+    top: 20px; /* Adjust the top position */
+    right: 20px; /* Adjust the right position */
+}
+/* Optionally, customize the hover effect for buttons */
+.swal2-confirm:hover,
+.swal2-cancel:hover {
+    opacity: 0.8;
+}
+/* Add this CSS to your stylesheet or in the head of your HTML document */
+.swal2-icon img {
+    width: 25px; /* Set your desired width */
+    height: 25px; /* Set your desired height */
+}
+/* Customize SweetAlert2 buttons */
+.swal2-popup .swal2-confirm {
+    background-color: #4CAF50; /* Change to your desired button color */
+    color: #ffffff; /* Change to your desired text color */
+    padding: 10px 20px; /* Adjust the padding to change button size */
+    font-size: 16px; /* Adjust the font size */
+}
+
+/* Optional: Style the cancel button */
+.swal2-popup .swal2-cancel {
+    background-color: #ff0000; /* Change to your desired cancel button color */
+    color: #ffffff; /* Change to your desired text color */
+    padding: 10px 20px; /* Adjust the padding to change button size */
+    font-size: 16px; /* Adjust the font size */
+}
