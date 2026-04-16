@@ -161,9 +161,9 @@ $(document).ready(function(){
           </div>
 
 
-        <div class="d-flex justify-content-between">
+        <div class="app-action-row">
 
-          <button class="btn btn-primary btn-next">
+          <button class="btn btn-primary btn-next app-submit-button">
             <span class="align-middle d-sm-inline-block d-none">Proceed</span>
             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
           </button>
@@ -186,4 +186,3 @@ $(document).ready(function(){
 <script src="{{ asset($activeTemplateTrue. 'app-assets/js/scripts/forms/form-wizard.min.js')}}"></script>
 
 @endpush
-

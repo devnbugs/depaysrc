@@ -122,7 +122,7 @@
             <p class="mb-4 text-sm text-slate-600 dark:text-zinc-400">
                 Create a 4-digit PIN to protect your transactions. This PIN will be required when making payments or purchases.
             </p>
-            <a href="{{ route('user.pin.setup') }}" class="inline-flex h-11 items-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
+            <a href="{{ route('user.pin.setup') }}" class="inline-flex h-11 w-full items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
                 Create PIN
             </a>
         </section>
@@ -138,7 +138,7 @@
                 <p class="mb-4 text-sm text-slate-600 dark:text-zinc-400">
                     Update your current PIN with a new 4-digit code.
                 </p>
-                <a href="{{ route('user.pin.change') }}" class="inline-flex h-11 items-center rounded-full border border-sky-300 bg-sky-50 px-6 text-sm font-semibold text-sky-700 transition hover:bg-sky-100 dark:border-sky-500/30 dark:bg-sky-900/20 dark:text-sky-300 dark:hover:bg-sky-900/30">
+                <a href="{{ route('user.pin.change') }}" class="inline-flex h-11 w-full items-center justify-center rounded-full border border-sky-300 bg-sky-50 px-6 text-sm font-semibold text-sky-700 transition hover:bg-sky-100 dark:border-sky-500/30 dark:bg-sky-900/20 dark:text-sky-300 dark:hover:bg-sky-900/30">
                     Change PIN
                 </a>
             </div>
@@ -152,7 +152,7 @@
                 <p class="mb-4 text-sm text-slate-600 dark:text-zinc-400">
                     Reset your PIN using your account password if you've forgotten it.
                 </p>
-                <a href="{{ route('user.pin.reset') }}" class="inline-flex h-11 items-center rounded-full border border-amber-300 bg-amber-50 px-6 text-sm font-semibold text-amber-700 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:bg-amber-900/30">
+                <a href="{{ route('user.pin.reset') }}" class="inline-flex h-11 w-full items-center justify-center rounded-full border border-amber-300 bg-amber-50 px-6 text-sm font-semibold text-amber-700 transition hover:bg-amber-100 dark:border-amber-500/30 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:bg-amber-900/30">
                     Reset PIN
                 </a>
             </div>
@@ -167,7 +167,7 @@
                     <p class="mb-4 text-sm text-slate-600 dark:text-zinc-400">
                         Turn off PIN protection (requires 2FA to be enabled).
                     </p>
-                    <a href="{{ route('user.pin.disable') }}" class="inline-flex h-11 items-center rounded-full border border-rose-300 bg-rose-50 px-6 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 dark:border-rose-500/30 dark:bg-rose-900/20 dark:text-rose-300 dark:hover:bg-rose-900/30">
+                    <a href="{{ route('user.pin.disable') }}" class="inline-flex h-11 w-full items-center justify-center rounded-full border border-rose-300 bg-rose-50 px-6 text-sm font-semibold text-rose-700 transition hover:bg-rose-100 dark:border-rose-500/30 dark:bg-rose-900/20 dark:text-rose-300 dark:hover:bg-rose-900/30">
                         Disable PIN
                     </a>
                 </div>
@@ -194,7 +194,7 @@
                 <p class="text-sm text-slate-600 dark:text-zinc-400">
                     Temporarily disable PIN without deleting it. You can enable it again anytime.
                 </p>
-                <button type="submit" class="inline-flex h-11 items-center rounded-full bg-rose-600 px-6 text-sm font-semibold text-white transition hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600">
+                <button type="submit" class="app-submit-button inline-flex h-11 rounded-full bg-rose-600 px-6 text-sm font-semibold text-white transition hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600">
                     Temporarily Disable PIN
                 </button>
             </form>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PasswordResetEmailRequest;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,32 +36,17 @@ class ForgotPasswordController extends Controller
 
 
 
-    public function sendResetCodeEmail(Request $request)
+    public function sendResetCodeEmail(PasswordResetEmailRequest $request)
     {
+        // PasswordResetEmailRequest automatically validates email/username and Turnstile
+        // with rate limiting of 5 attempts per 1 minute
 
         \Session::flash('modal', '#resetModal');
 
-        if ($request->type == 'email') {
-            $validationRule = [
-                'value'=>'required|email'
-            ];
-            $validationMessage = [
-                'value.required'=>'Email field is required',
-                'value.email'=>'Email must be a valid email'
-            ];
-        }elseif($request->type == 'username'){
-            $validationRule = [
-                'value'=>'required'
-            ];
-            $validationMessage = ['value.required'=>'Username field is required'];
-        }else{
-            $notify[] = ['error','Invalid selection'];
-            return back()->withNotify($notify);
-        }
-
-        $request->validate($validationRule,$validationMessage);
-
-        $user = User::where($request->type, $request->value)->first();
+        // Determine field type
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        
+        $user = User::where($fieldType, $request->email)->first();
 
         if (!$user) {
             $notify[] = ['error', 'User not found.'];

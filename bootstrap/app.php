@@ -10,6 +10,7 @@ use App\Http\Middleware\RedirectIfAdmin;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RedirectIfNotAdmin;
 use App\Http\Middleware\TrustProxies;
+use App\Http\Middleware\TurnstileDashboard;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -51,6 +52,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'demo' => Demo::class,
             'guest' => RedirectIfAuthenticated::class,
             'regStatus' => AllowRegistration::class,
+            'turnstile.dashboard' => TurnstileDashboard::class,
         ]);
 
         $middleware->trustProxies(at: '*');

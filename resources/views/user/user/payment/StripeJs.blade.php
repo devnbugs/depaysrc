@@ -69,7 +69,7 @@
     <script>
         (function ($) {
             "use strict";
-            $('.stripe-button-el').addClass("btn btn-primary w-100 btn-next place-order").removeClass('stripe-button-el');
+            $('.stripe-button-el').addClass("btn btn-primary w-100 btn-next place-order app-submit-button").removeClass('stripe-button-el');
         })(jQuery);
     </script>
 @endpush

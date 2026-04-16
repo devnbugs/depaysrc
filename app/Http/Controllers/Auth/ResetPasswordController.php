@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\PasswordUpdateRequest;
 use App\Models\GeneralSetting;
 use App\Http\Controllers\Controller;
 use App\Models\PasswordReset;
@@ -41,11 +42,12 @@ class ResetPasswordController extends Controller
         );
     }
 
-    public function reset(Request $request)
+    public function reset(PasswordUpdateRequest $request)
     {
+        // PasswordUpdateRequest automatically validates password and Turnstile
+        // with rate limiting of 5 attempts per 1 minute
 
         session()->put('fpass_email', $request->email);
-        $request->validate($this->rules(), $this->validationErrorMessages());
         $reset = PasswordReset::where('token', $request->token)->orderBy('created_at', 'desc')->first();
         if (!$reset) {
             $notify[] = ['error', 'Invalid verification code'];

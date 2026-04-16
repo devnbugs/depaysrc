@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Models\AdminNotification;
 use App\Models\GeneralSetting;
 use App\Models\User;
@@ -91,9 +92,11 @@ class RegisterController extends Controller
         return $validate;
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $this->validator($request->all())->validate();
+        // RegisterRequest automatically validates all fields including Turnstile
+        // with rate limiting of 5 attempts per 1 minute
+        
         if (User::where('firstname', $request->firstname)
             ->where('lastname', $request->lastname)
             ->exists()) {

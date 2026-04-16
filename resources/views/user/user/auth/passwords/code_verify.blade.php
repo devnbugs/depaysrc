@@ -19,9 +19,9 @@
 
             @include('user.partials.turnstile')
 
-            <div class="flex items-center justify-between gap-3">
+            <div class="app-submit-actions">
                 <a href="{{ route('user.password.request') }}" class="text-sm font-medium text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300">@lang('Send again')</a>
-                <button type="submit" class="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
+                <button type="submit" class="app-submit-button inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
                     @lang('Verify Code')
                 </button>
             </div>

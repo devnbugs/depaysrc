@@ -70,6 +70,7 @@ Thumbs.db
 *.zip
 *.tar
 *.gz
+*.md
 
 # =========================
 # Laravel Telescope / Debugbar (optional)

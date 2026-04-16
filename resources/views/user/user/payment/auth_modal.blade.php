@@ -77,11 +77,11 @@
                 <input type="hidden" name="passkey_id" id="passkeyId">
             </div>
 
-            <div class="flex gap-3">
-                <button type="submit" class="flex-1 h-10 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 transition dark:bg-sky-500 dark:hover:bg-sky-600">
+            <div class="app-action-row">
+                <button type="submit" class="app-submit-button app-action-fit h-10 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 transition dark:bg-sky-500 dark:hover:bg-sky-600">
                     Verify
                 </button>
-                <button type="button" id="closeAuthModal" class="flex-1 h-10 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition dark:border-white/20 dark:text-zinc-300 dark:hover:bg-white/5">
+                <button type="button" id="closeAuthModal" class="app-action-fit h-10 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition dark:border-white/20 dark:text-zinc-300 dark:hover:bg-white/5">
                     Cancel
                 </button>
             </div>

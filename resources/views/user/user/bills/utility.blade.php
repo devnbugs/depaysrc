@@ -87,7 +87,7 @@
                 @include('user.partials.invisible-recaptcha', ['formId' => 'purchase'])
 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full h-12 rounded-full bg-slate-950 font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
+                <button type="submit" class="app-submit-button w-full h-12 rounded-full bg-slate-950 font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
                     Pay Utility
                 </button>
             </form>
@@ -111,4 +111,3 @@
     </div>
 </section>
 @endsection
-

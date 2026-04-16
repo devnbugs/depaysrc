@@ -79,14 +79,14 @@
                                 </div>
                             </div>
 
-                            <div class="mt-5 flex items-center justify-between gap-3 border-t border-slate-200 pt-5 dark:border-white/10">
+                            <div class="mt-5 flex flex-col gap-3 border-t border-slate-200 pt-5 dark:border-white/10 sm:flex-row sm:items-center sm:justify-between">
                                 <p id="resolve-status" class="text-sm text-slate-600 dark:text-zinc-400">Choose a bank and enter a 10-digit account number to start.</p>
-                                <div class="flex items-center gap-3">
-                                    <div id="resolve-indicator" class="hidden items-center gap-2 rounded-full bg-sky-100 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:bg-sky-500/10 dark:text-sky-300">
+                                <div class="app-action-row sm:w-auto">
+                                    <div id="resolve-indicator" class="app-action-fit hidden items-center gap-2 rounded-full bg-sky-100 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:bg-sky-500/10 dark:text-sky-300">
                                         <span class="h-2 w-2 animate-pulse rounded-full bg-current"></span>
                                         Resolving
                                     </div>
-                                    <button type="button" id="step-1-next" class="inline-flex items-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Proceed to Amount</button>
+                                    <button type="button" id="step-1-next" class="app-submit-button inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Proceed to Amount</button>
                                 </div>
                             </div>
                         </section>
@@ -126,9 +126,9 @@
                                 </div>
                             </div>
 
-                            <div class="mt-5 flex items-center justify-between gap-3 border-t border-slate-200 pt-5 dark:border-white/10">
-                                <button type="button" data-step-back="1" class="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-white/20 dark:hover:text-white">Back to Beneficiary</button>
-                                <button type="button" id="step-2-next" class="inline-flex items-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Proceed to PIN Auth</button>
+                            <div class="mt-5 app-action-row border-t border-slate-200 pt-5 dark:border-white/10">
+                                <button type="button" data-step-back="1" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-white/20 dark:hover:text-white">Back to Beneficiary</button>
+                                <button type="button" id="step-2-next" class="app-submit-button inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Proceed to PIN Auth</button>
                             </div>
                         </section>
 
@@ -152,9 +152,9 @@
                                 </div>
                             @endif
 
-                            <div class="mt-5 flex items-center justify-between gap-3 border-t border-slate-200 pt-5 dark:border-white/10">
-                                <button type="button" data-step-back="2" class="inline-flex items-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-white/20 dark:hover:text-white">Back to Amount</button>
-                                <button type="submit" id="submit-transfer" class="inline-flex items-center rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Confirm and Send Transfer</button>
+                            <div class="mt-5 app-action-row border-t border-slate-200 pt-5 dark:border-white/10">
+                                <button type="button" data-step-back="2" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-white/20 dark:hover:text-white">Back to Amount</button>
+                                <button type="submit" id="submit-transfer" class="app-submit-button inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" disabled>Confirm and Send Transfer</button>
                             </div>
                         </section>
                     </form>

@@ -57,7 +57,7 @@
                                 </div> </div>
                             </div>
                             <br>
-                            <button class="btn btn-primary w-100 btn-next place-order text-center" type="submit"> @lang('PAY NOW')
+                            <button class="btn btn-primary w-100 btn-next place-order app-submit-button text-center" type="submit"> @lang('PAY NOW')
                             </button>
 
                         </form>

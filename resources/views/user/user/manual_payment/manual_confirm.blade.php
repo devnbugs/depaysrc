@@ -99,7 +99,7 @@ div id="content" class="main-content">
                                 @endif
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn--base w-100 mt-2 text-center text-white">@lang('Pay Now')</button>
+                                        <button type="submit" class="btn btn--base w-100 mt-2 text-center text-white app-submit-button">@lang('Pay Now')</button>
                                     </div>
                                 </div>
 

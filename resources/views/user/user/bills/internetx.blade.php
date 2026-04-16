@@ -98,8 +98,8 @@
                                                 </div>
                                             </div>
                                             @endif
-                                            <div class="btn-group col-12">
-                                                <button type="submit" class="btn btn-primary text-white" id="buyButton">Buy Data</button>  
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-primary text-white app-submit-button" id="buyButton">Buy Data</button>  
                                             </div>
                                         </div>
                                     </form>

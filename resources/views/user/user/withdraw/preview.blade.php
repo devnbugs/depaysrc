@@ -92,7 +92,7 @@
 
               <div class="col-12">
               <br>
-                <button type="submit" class="btn btn--primary text-white btn-next delivery-address">@lang('Confirm')</button>
+                <button type="submit" class="btn btn--primary text-white btn-next delivery-address app-submit-button">@lang('Confirm')</button>
               </div>
             </div>
           </div>

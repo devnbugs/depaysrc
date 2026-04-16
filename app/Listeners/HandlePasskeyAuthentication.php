@@ -24,6 +24,7 @@ class HandlePasskeyAuthentication
 
         $event->passkey->forceFill(['last_used_at' => now()])->save();
         $this->passkeyState->syncForUser($user);
+        $event->request->attributes->set('authenticated_via_passkey', true);
         $this->loginController->authenticated($event->request, $user);
     }
 }

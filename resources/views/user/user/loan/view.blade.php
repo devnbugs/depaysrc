@@ -212,7 +212,7 @@
 
                       </div>
                       <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Make Payment</button>
+                        <button type="submit" class="btn btn-primary app-submit-button">Make Payment</button>
                       </div>
                     </form>
                   </div>

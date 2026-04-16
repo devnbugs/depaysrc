@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\Extension;
 use App\Models\UserLogin;
 use App\Services\Funding\CustomerProvisioningService;
@@ -57,11 +58,12 @@ class LoginController extends Controller
 
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         \Session::flash('modal', '#loginModal');
 
-        $this->validateLogin($request);
+        // LoginRequest automatically validates username, password, and Turnstile token
+        // with rate limiting of 5 attempts per 1 minute
 
         $key = $this->throttleKey($request);
         if (RateLimiter::tooManyAttempts($key, $this->maxAttempts())) {
@@ -159,7 +161,7 @@ class LoginController extends Controller
             return redirect()->route('user.login')->withNotify($notify);
         }
 
-        $user->tv = $user->ts == 1 ? 0 : 1;
+        $user->tv = $this->shouldRequireLegacyTwoFactorChallenge($request, $user) ? 0 : 1;
         $user->save();
 
         $ip = $request->ip();
@@ -198,6 +200,17 @@ class LoginController extends Controller
         }
 
         return redirect()->route('user.home');
+    }
+
+    protected function shouldRequireLegacyTwoFactorChallenge(Request $request, $user): bool
+    {
+        return (int) ($user->ts ?? 0) === 1 && ! $this->wasAuthenticatedWithPasskey($request);
+    }
+
+    protected function wasAuthenticatedWithPasskey(Request $request): bool
+    {
+        return (bool) $request->attributes->get('authenticated_via_passkey')
+            || $request->routeIs('passkeys.login');
     }
 
 

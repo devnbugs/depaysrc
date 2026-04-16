@@ -75,10 +75,10 @@
 
 
 
-        <div class="d-flex justify-content-between">
+        <div class="app-action-row">
 
 
-          <button class="btn btn--primary text-white btn-next">
+          <button class="btn btn--primary text-white btn-next app-submit-button">
             <span class="align-middle d-sm-inline-block d-none">Transfer</span>
             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
           </button>

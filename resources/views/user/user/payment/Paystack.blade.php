@@ -48,7 +48,7 @@
 
                   <form action="{{ route('ipn.'.$deposit->gateway->alias) }}" method="POST" class="text-center">
                         @csrf
-                 <button type="button" class="btn btn-primary w-100 btn-next place-order" id="btn-confirm">@lang('Pay Now')</button>
+                 <button type="button" class="btn btn-primary w-100 btn-next place-order app-submit-button" id="btn-confirm">@lang('Pay Now')</button>
                         <script
                             src="//js.paystack.co/v1/inline.js"
                             data-key="{{ $data->key }}"

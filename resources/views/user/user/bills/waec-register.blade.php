@@ -78,7 +78,7 @@
 
                                                 <div class="form-group col-12">
                                                    
-                                                    <button type="submit" class="btn btn-porimary text-white">Proceed</button>
+                                                    <button type="submit" class="btn btn--primary text-white app-submit-button">Proceed</button>
  
                                                 </div>
 

@@ -5,6 +5,7 @@ use App\Models\Admin;
 use App\Models\Frontend;
 use App\Models\Page;
 use App\Models\MarketPrice; // Ensure the MarketPrice model is imported
+use App\Http\Requests\ContactFormRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -57,15 +58,12 @@ class SiteController extends Controller
     }
 
 
-    public function contactSubmit(Request $request)
+    public function contactSubmit(ContactFormRequest $request)
     {
-
-        $this->validate($request, [
-            'name' => 'required|max:191',
-            'email' => 'required|email|max:191',
-            'subject' => 'required|max:100',
-            'message' => 'required',
-        ]);
+        // ContactFormRequest automatically validates:
+        // - name, email, subject, message
+        // - Cloudflare Turnstile token
+        // - Rate limiting (3 attempts per 5 minutes)
 
         sendContactEmail($request->email, $request->subject, $request->message, $request->name);
 

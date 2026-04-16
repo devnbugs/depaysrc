@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-                <button class="inline-flex h-12 items-center justify-center rounded-full bg-slate-950 px-6 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" type="submit" id="recaptcha">
+                <button class="app-submit-button inline-flex h-12 rounded-full bg-slate-950 px-6 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" type="submit" id="recaptcha">
                     Submit ticket
                 </button>
             </form>

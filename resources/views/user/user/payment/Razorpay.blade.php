@@ -65,7 +65,7 @@
     <script>
         (function ($) {
             "use strict";
-            $('input[type="submit"]').addClass("ml-4 mt-4 btn-custom2 text-center btn-lg");
+            $('input[type="submit"]').addClass("ml-4 mt-4 btn-custom2 text-center btn-lg app-submit-button");
             $('.razorpay-payment-button').addClass('btn--base');
         })(jQuery);
     </script>

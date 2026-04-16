@@ -48,7 +48,7 @@
                 </ul>
 
 
-                 <button type="button" class="btn btn-primary w-100 btn-next place-order" id="btn-confirm" onClick="payWithRave()">@lang('Pay Now')</button>
+                 <button type="button" class="btn btn-primary w-100 btn-next place-order app-submit-button" id="btn-confirm" onClick="payWithRave()">@lang('Pay Now')</button>
 
                  </div>
             </div>

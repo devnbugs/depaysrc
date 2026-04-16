@@ -116,10 +116,10 @@
                         </form>
                     </div>
 
-                    <form action="{{ route('user.profile.phone.verify-otp') }}" method="POST" class="mt-5 flex flex-col gap-4 sm:flex-row">
+                    <form action="{{ route('user.profile.phone.verify-otp') }}" method="POST" class="mt-5 app-action-row">
                         @csrf
                         <input type="text" name="otp" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 transition focus:border-sky-500 focus:outline-none dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-200" placeholder="Enter OTP from WhatsApp">
-                        <button type="submit" class="inline-flex h-11 items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
+                        <button type="submit" class="app-action-fit app-submit-button inline-flex h-11 rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
                             Verify OTP
                         </button>
                     </form>
@@ -194,11 +194,11 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex gap-3 border-t border-slate-200 pt-6 dark:border-white/10">
-                <button type="submit" class="inline-flex h-11 items-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
+            <div class="app-action-row border-t border-slate-200 pt-6 dark:border-white/10">
+                <button type="submit" class="app-submit-button inline-flex h-11 rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
                     Save Changes
                 </button>
-                <a href="{{ route('user.home') }}" class="inline-flex h-11 items-center rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:text-sky-700 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-sky-500/30 dark:hover:text-sky-300">
+                <a href="{{ route('user.home') }}" class="inline-flex h-11 items-center justify-center rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:border-sky-200 hover:text-sky-700 dark:border-white/10 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-sky-500/30 dark:hover:text-sky-300">
                     Cancel
                 </a>
             </div>

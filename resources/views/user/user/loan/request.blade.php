@@ -135,9 +135,9 @@ document.getElementById("method_code").value = method_code;
               <input type="number" name="duration" id="duration" class="form-control" placeholder="Enter Loan Duration" />
             </div>
           </div>
-        <div class="d-flex justify-content-between">
+        <div class="app-action-row">
 
-          <button class="btn btn--primary text-white btn-next">
+          <button class="btn btn--primary text-white btn-next app-submit-button">
             <span class="align-middle d-sm-inline-block d-none">Proceed</span>
             <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
           </button>
@@ -160,4 +160,3 @@ document.getElementById("method_code").value = method_code;
 <script src="{{ asset($activeTemplateTrue. 'app-assets/js/scripts/forms/form-wizard.min.js')}}"></script>
 
 @endpush
-

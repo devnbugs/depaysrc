@@ -90,7 +90,7 @@
                         The service fee is {{ $general->cur_sym }}{{ number_format($creationFee, 2) }}. This card flow is powered by Interswitch Card 360 and is only exposed to profiles with a verified email plus locked BVN or NIN identity.
                     </div>
 
-                    <button type="submit" class="inline-flex h-11 items-center rounded-full bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
+                    <button type="submit" class="app-submit-button inline-flex h-11 rounded-full bg-slate-950 px-5 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
                         Create card
                     </button>
                 </form>

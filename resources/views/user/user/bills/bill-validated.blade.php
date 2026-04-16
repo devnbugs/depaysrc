@@ -67,7 +67,7 @@
                                                             <input name="plan" hidden value="{{$plancode}}">
                                                             <input name="type" hidden value="{{$type}}">
                                                             <input name="amount" hidden value="{{$cost}}">
-															<button type="submit" class="btn btn--primary font-weight-bold">Make Payment</button>
+															<button type="submit" class="btn btn--primary font-weight-bold app-submit-button">Make Payment</button>
 															</form>
 
             </div>

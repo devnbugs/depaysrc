@@ -84,8 +84,33 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                {{-- Cloudflare Turnstile Security Widget --}}
+                                @if(config('services.cloudflare.turnstile_site_key'))
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="single-input">
+                                                <div class="cf-turnstile" 
+                                                     data-sitekey="{{ config('services.cloudflare.turnstile_site_key') }}"
+                                                     data-theme="light"
+                                                     data-appearance="always"
+                                                     data-callback="onContactTurnstileSuccess"
+                                                     data-error-callback="onContactTurnstileError"
+                                                     data-retry="auto"
+                                                     data-retry-interval="8000"
+                                                     style="margin: 20px 0; display: flex; justify-content: center;">
+                                                </div>
+                                                <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" value="">
+                                                @error('cf-turnstile-response')
+                                                    <p class="text-danger" style="margin-top: 10px;">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                
                                 <div class="btn-area text-center">
-                                    <button class="cmn-btn">Send Message</button>
+                                    <button type="submit" class="cmn-btn" id="contact-submit-btn">Send Message</button>
                                 </div>
                             </form>
                         </div>
@@ -133,3 +158,39 @@
  
 
 @endsection
+
+@if(config('services.cloudflare.turnstile_site_key'))
+    @push('script')
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        <script>
+            // Turnstile callbacks for contact form
+            function onContactTurnstileSuccess(token) {
+                document.getElementById('cf-turnstile-response').value = token;
+                console.log('✓ Contact form Turnstile verified');
+            }
+
+            function onContactTurnstileError(errorData) {
+                document.getElementById('cf-turnstile-response').value = '';
+                console.error('✗ Contact form Turnstile error:', errorData);
+            }
+
+            // Form submission validation
+            document.addEventListener('DOMContentLoaded', function() {
+                const form = document.querySelector('.contact-form');
+                const submitBtn = document.getElementById('contact-submit-btn');
+
+                if (form && submitBtn) {
+                    form.addEventListener('submit', function(e) {
+                        const token = document.getElementById('cf-turnstile-response');
+                        if (token && !token.value) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            alert('Please complete the security verification before sending your message.');
+                            return false;
+                        }
+                    });
+                }
+            });
+        </script>
+    @endpush
+@endif

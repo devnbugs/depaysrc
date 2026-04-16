@@ -52,7 +52,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="inline-flex h-11 items-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-600" @disabled(empty($depositSettings['kora_enabled']))>
+                    <button type="submit" class="app-submit-button inline-flex h-11 rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-sky-500 dark:hover:bg-sky-600" @disabled(empty($depositSettings['kora_enabled']))>
                         Pay with Kora
                     </button>
                 </form>

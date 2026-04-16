@@ -62,9 +62,9 @@
                   </li>
                 </ul>
                  @if( 1000 >$data->method_code)
-                            <a href="{{route('user.deposit.confirm')}}" class="btn btn--primary w-100 btn-next place-order">@lang('Pay Now')</a>
+                            <a href="{{route('user.deposit.confirm')}}" class="btn btn--primary w-100 btn-next place-order app-submit-button">@lang('Pay Now')</a>
                  @else
-                            <a href="{{route('user.deposit.manual.confirm')}}" class="btn btn--primary w-100 btn-next place-order">@lang('Pay Now')</a>
+                            <a href="{{route('user.deposit.manual.confirm')}}" class="btn btn--primary w-100 btn-next place-order app-submit-button">@lang('Pay Now')</a>
                  @endif
                </div>
             </div>
@@ -83,4 +83,3 @@
     }
 </style>
 @endpush
-
