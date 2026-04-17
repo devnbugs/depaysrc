@@ -26,7 +26,6 @@
 # Composer
 # =========================
 composer.phar
-composer.lock
 
 # =========================
 # NPM / Node
