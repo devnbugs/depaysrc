@@ -1,4 +1,3 @@
-@if(config('services.cloudflare.turnstile_site_key'))
     <div class="space-y-2">
         <!-- Cloudflare Turnstile: Managed Interactive Widget -->
         <!-- Features: Auto Theme, Flexible Size (Responsive), Auto Refresh, Auto Retry, Always Visible -->
@@ -58,6 +57,73 @@
                 }
                 
                 // Trigger form submission if auto-submit is enabled
+@if(config('services.cloudflare.turnstile_site_key'))
+    <div class="space-y-2">
+        <!-- Cloudflare Turnstile: Managed Interactive Widget -->
+        <!-- Enhanced for cf_clearance and Cloudflare protection -->
+        <div id="cf-turnstile-{{ uniqid('turnstile_') }}"
+             class="cf-turnstile"
+             data-sitekey="{{ config('services.cloudflare.turnstile_site_key') }}"
+             data-theme="auto"
+             data-size="flexible"
+             data-appearance="always"
+             data-execution="render"
+             data-language="auto"
+             data-tabindex="0"
+             data-callback="onTurnstileSuccess"
+             data-error-callback="onTurnstileError"
+             data-expired-callback="onTurnstileExpired"
+             data-timeout-callback="onTurnstileTimeout"
+             data-before-interactive-callback="onBeforeTurnstileInteractive"
+             data-after-interactive-callback="onAfterTurnstileInteractive"
+             data-retry="auto"
+             data-retry-interval="8000"
+             data-refresh-expired="auto"
+             data-refresh-timeout="auto"
+             data-response-field="true"
+             data-response-field-name="cf-turnstile-response"
+             data-feedback-enabled="true"
+        ></div>
+
+        <!-- Hidden input to store token -->
+        <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" value="">
+
+        @error('cf-turnstile-response')
+            <div class="rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-900/20 dark:bg-red-900/10">
+                <p class="text-sm font-medium text-red-800 dark:text-red-300">{{ $message }}</p>
+            </div>
+        @enderror
+    </div>
+
+    @if($loop->first ?? true)
+        <!-- Cloudflare Turnstile API Script -->
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+        <script>
+            // Enhanced Turnstile Widget Callbacks for cf_clearance
+            function onTurnstileSuccess(token) {
+                console.log('\u2713 Turnstile verification successful');
+                document.getElementById('cf-turnstile-response').value = token;
+                // Remove error class if exists
+                const errorElement = document.querySelector('[data-turnstile-error]');
+                if (errorElement) {
+                    errorElement.classList.remove('!ring-2', '!ring-red-500', '!ring-opacity-50');
+                }
+            }
+            function onTurnstileError() {
+                console.warn('Turnstile error. If you are using Cloudflare cf_clearance, ensure cookies are present.');
+            }
+            function onTurnstileExpired() {
+                document.getElementById('cf-turnstile-response').value = '';
+            }
+            function onTurnstileTimeout() {
+                document.getElementById('cf-turnstile-response').value = '';
+            }
+            function onBeforeTurnstileInteractive() {}
+            function onAfterTurnstileInteractive() {}
+        </script>
+    @endif
+@endif
                 const form = document.querySelector('form[data-turnstile-auto-submit]');
                 if (form && form.dataset.turnstileAutoSubmit === 'true') {
                     form.submit();

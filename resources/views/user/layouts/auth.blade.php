@@ -96,6 +96,18 @@
         </main>
     </div>
 
+    {{-- Countly Debug Console Logging --}}
+    @if(config('services.countly.debug'))
+        <script>
+            window.CountlyDebug = true;
+            window.countlyLog = function(...args) {
+                if (window.CountlyDebug) {
+                    console.log('[Countly]', ...args);
+                }
+            };
+        </script>
+    @endif
+
     @livewireScripts
     @stack('script-lib')
     @stack('script')

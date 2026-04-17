@@ -12,8 +12,11 @@
             </p>
         </div>
 
+
         <form method="POST" action="{{ route('user.go2fa.verify') }}" class="space-y-5" data-busy-form data-busy-message="Verifying your authenticator code...">
             @csrf
+
+            @include('user.partials.turnstile')
 
             <div class="space-y-2">
                 <label for="code" class="text-sm font-medium text-slate-700 dark:text-zinc-200">@lang('Authenticator code')</label>

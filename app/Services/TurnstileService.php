@@ -13,18 +13,38 @@ class TurnstileService
     private const REQUEST_TIMEOUT = 10;
 
     /**
-     * Verify Turnstile response token
+     * Verify Turnstile response token, with Cloudflare cf_clearance support
      */
     public function verify(string $token, ?string $ip = null): bool
     {
         try {
+            $headers = [];
+            // Forward cf_clearance and other Cloudflare cookies if present
+            if (request()->hasCookie('cf_clearance')) {
+                $headers['Cookie'] = 'cf_clearance=' . request()->cookie('cf_clearance');
+            }
+            if (request()->hasCookie('__cf_bm')) {
+                $headers['Cookie'] = ($headers['Cookie'] ?? '') . '; __cf_bm=' . request()->cookie('__cf_bm');
+            }
+
             $response = Http::timeout(self::REQUEST_TIMEOUT)
+                ->withHeaders($headers)
                 ->post(self::TURNSTILE_VERIFY_URL, [
                     'secret' => config('services.cloudflare.turnstile_secret_key'),
                     'response' => $token,
                     'remoteip' => $ip ?? request()->ip(),
                 ])
                 ->json();
+
+            // Enhanced logging for Cloudflare-protected apps
+            \Log::info('Turnstile verification response', [
+                'success' => $response['success'] ?? false,
+                'hostname' => $response['hostname'] ?? null,
+                'challenge_ts' => $response['challenge_ts'] ?? null,
+                'cf_cleared' => request()->hasCookie('cf_clearance'),
+                'cf_bm' => request()->hasCookie('__cf_bm'),
+                'ip' => $ip ?? request()->ip(),
+            ]);
 
             return $response['success'] ?? false;
         } catch (\Exception $e) {

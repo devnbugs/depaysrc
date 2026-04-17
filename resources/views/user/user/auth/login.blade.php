@@ -55,3 +55,14 @@
         </p>
     </div>
 @endsection
+
+@if(config('services.countly.debug'))
+    <script>
+        window.CountlyDebug = true;
+        window.countlyLog = function(...args) {
+            if (window.CountlyDebug) {
+                console.log('[Countly]', ...args);
+            }
+        };
+    </script>
+@endif
