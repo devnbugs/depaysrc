@@ -61,9 +61,9 @@
             <div class="app-submit-actions">
                 <p class="text-sm text-slate-500 dark:text-zinc-400">
                     By continuing, you agree to our
-                    <a class="font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ route('legal.privacy') }}">Privacy Policy</a>
+                    <a class="font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ \Illuminate\Support\Facades\Route::has('legal.privacy') ? route('legal.privacy') : url('/privacy-policy') }}">Privacy Policy</a>
                     and
-                    <a class="font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ route('legal.terms') }}">Terms</a>.
+                    <a class="font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ \Illuminate\Support\Facades\Route::has('legal.terms') ? route('legal.terms') : url('/terms') }}">Terms</a>.
                 </p>
                 <button type="submit" class="app-submit-button inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
                     Complete signup
@@ -72,4 +72,3 @@
         </form>
     </div>
 @endsection
-

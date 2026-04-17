@@ -30,9 +30,9 @@
                 <div class="app-submit-actions">
                     <p class="text-sm text-slate-500 dark:text-zinc-400">
                         @lang('By signing in, you agree to our')
-                        <a class="font-semibold text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ route('legal.privacy') }}">@lang('privacy policy')</a>
+                        <a class="font-semibold text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ \Illuminate\Support\Facades\Route::has('legal.privacy') ? route('legal.privacy') : url('/privacy-policy') }}">@lang('privacy policy')</a>
                         @lang('and')
-                        <a class="font-semibold text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ route('legal.terms') }}">@lang('terms')</a>.
+                        <a class="font-semibold text-sky-600 transition hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300" href="{{ \Illuminate\Support\Facades\Route::has('legal.terms') ? route('legal.terms') : url('/terms') }}">@lang('terms')</a>.
                     </p>
                     <button type="submit" class="app-submit-button inline-flex rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
                         @lang('Login')
