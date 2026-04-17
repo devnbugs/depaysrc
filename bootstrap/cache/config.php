@@ -982,6 +982,17 @@
       'server_url' => 'https://depayx-97f47e683cd63.flex.countly.com/',
       'app_key' => '28d1d759237caa6033e62f8a8e67f3d2cbed56e5',
     ),
+    'payment' => 
+    array (
+      'processor' => 'queue',
+      'queue' => 'payments',
+    ),
+    'async' => 
+    array (
+      'processes' => 4,
+      'timeout' => 30,
+      'retries' => 3,
+    ),
   ),
   'session' => 
   array (

@@ -12,6 +12,7 @@
 .env.backup
 .env.production
 .env.staging
+/bootstrap/cache/*.php
 
 # Laravel Storage
 /storage/*.key

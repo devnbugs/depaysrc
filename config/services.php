@@ -105,4 +105,39 @@ return [
         'app_key' => env('COUNTLY_APP_KEY', ''),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Processing Configuration
+    |--------------------------------------------------------------------------
+    | 
+    | Configure how payments are processed:
+    | - 'queue': Use Laravel queue system (distributed, scalable)
+    | - 'async': Use Spatie Async (local, immediate processing)
+    |
+    */
+    'payment' => [
+        // Processor: 'queue' or 'async'
+        'processor' => env('PAYMENT_PROCESSOR', 'queue'),
+        // Queue name (only used if processor = 'queue')
+        'queue' => env('PAYMENT_QUEUE', 'payments'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Spatie Async Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure Spatie Async for high-performance local processing.
+    | Only applies when PAYMENT_PROCESSOR=async
+    |
+    */
+    'async' => [
+        // Number of processes in the pool (default: CPU cores)
+        'processes' => env('ASYNC_PROCESSES', 4),
+        // Timeout for each process (seconds)
+        'timeout' => env('ASYNC_TIMEOUT', 30),
+        // Retry failed tasks
+        'retries' => env('ASYNC_RETRIES', 3),
+    ],
+
 ];

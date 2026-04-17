@@ -661,6 +661,10 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('currency/swapcoin', 'WalletController@swapcoinpost');
 
 
+            // Payment Confirmation
+            Route::post('payment/confirm', [\App\Http\Controllers\PaymentConfirmationController::class, 'confirm'])->name('payment.confirm');
+            Route::post('payment/validate', [\App\Http\Controllers\PaymentConfirmationController::class, 'validatePayment'])->name('payment.validate');
+
             //Bill Payment System
             Route::get('bill/airtime', 'BillsController@airtime')->name('airtime');
             Route::post('bill/airtime', 'BillsController@airtimebuy');
