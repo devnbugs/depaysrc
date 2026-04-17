@@ -54,7 +54,9 @@ class LoginController extends Controller
     public function loginpage(Request $request)
     {
         $pageTitle = 'Login';
-        return view('user.user.auth.login', compact('pageTitle'));
+        // Use correct view path based on $activeTemplate
+        $viewPath = $this->activeTemplate . 'auth.login';
+        return view($viewPath, compact('pageTitle'));
 
     }
 
