@@ -116,7 +116,7 @@
 
         <footer class="border-t border-slate-200/70 bg-white/85 py-12 text-sm text-slate-500 backdrop-blur dark:border-white/10 dark:bg-zinc-950/90 dark:text-zinc-400">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid gap-8 border-b border-slate-200/70 pb-8 dark:border-white/10 lg:grid-cols-[1.15fr_0.85fr_0.85fr_1fr]">
+                <div class="grid gap-8 border-b border-slate-200/70 pb-8 dark:border-white/10 lg:grid-cols-[1.15fr_0.85fr_0.85fr_0.85fr_1fr]">
                     <div class="space-y-4">
                         <a href="{{ route('home') }}" class="flex items-center gap-3">
                             <img src="{{ getImage(imagePath()['logoIcon']['path'] . '/logo.png') }}" alt="{{ $general->sitename }}" class="h-11 w-11 rounded-2xl border border-slate-200 object-contain shadow-sm dark:border-white/10">
@@ -149,6 +149,18 @@
                                     {{ $item['label'] }}
                                 </a>
                             @endforeach
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-zinc-400">Legal</p>
+                        <div class="grid gap-3">
+                            <a href="{{ route('legal.privacy') }}" class="text-sm text-slate-600 transition hover:text-slate-950 dark:text-zinc-300 dark:hover:text-white">
+                                Privacy Policy
+                            </a>
+                            <a href="{{ route('legal.terms') }}" class="text-sm text-slate-600 transition hover:text-slate-950 dark:text-zinc-300 dark:hover:text-white">
+                                Terms & Conditions
+                            </a>
                         </div>
                     </div>
 
