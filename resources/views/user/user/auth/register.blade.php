@@ -82,6 +82,17 @@
     </div>
 @endsection
 
+@if(config('services.countly.debug'))
+    <script>
+        window.CountlyDebug = true;
+        window.countlyLog = function(...args) {
+            if (window.CountlyDebug) {
+                console.log('[Countly]', ...args);
+            }
+        };
+    </script>
+@endif
+
 @push('script-lib')
     <script src="{{ asset('assets/global/js/secure_password.js') }}"></script>
 @endpush

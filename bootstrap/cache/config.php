@@ -8,7 +8,7 @@
     'name' => 'DePay',
     'env' => 'local',
     'debug' => true,
-    'url' => 'https://depay.local',
+    'url' => 'https://depay.name.ng',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -330,7 +330,7 @@
   array (
     'enabled' => true,
     'server_url' => 'https://depayx-97f47e683cd63.flex.countly.com/',
-    'app_key' => '28d1d759237caa6033e62f8a8e67f3d2cbed56e5',
+    'app_key' => 'zkvtOv81dwEm860hkYQ7IoGaIpdRUDsN',
     'log_channel' => 'countly',
     'track_events' => 
     array (
@@ -369,7 +369,7 @@
       'timeout' => 60,
     ),
     'request_timeout' => 10,
-    'debug' => false,
+    'debug' => true,
   ),
   'database' => 
   array (
@@ -494,7 +494,7 @@
       array (
         'driver' => 'local',
         'root' => 'C:\\Users\\rhsal\\Documents\\apps\\onetera\\storage\\app/public',
-        'url' => 'https://depay.local/storage',
+        'url' => 'https://depay.name.ng/storage',
         'visibility' => 'public',
       ),
       's3' => 
@@ -655,7 +655,7 @@
       array (
         'driver' => 'daily',
         'path' => 'C:\\Users\\rhsal\\Documents\\apps\\onetera\\storage\\logs/countly.log',
-        'level' => 'info',
+        'level' => 'debug',
         'days' => 30,
       ),
       'nightwatch' => 
@@ -756,7 +756,7 @@
     'bvn' => '',
     'default_split_percentage' => '0',
     'default_currency_code' => 'NGN',
-    'redirect_url' => 'https://depay.local/transaction/confirm',
+    'redirect_url' => 'https://depay.name.ng/transaction/confirm',
     'wallet_id' => '8043195008',
   ),
   'passkeys' => 
@@ -773,7 +773,7 @@
     'relying_party' => 
     array (
       'name' => 'DePay',
-      'id' => 'depay.local',
+      'id' => 'depay.name.ng',
       'icon' => NULL,
     ),
     'models' => 
@@ -863,7 +863,7 @@
       2 => '127.0.0.1',
       3 => '127.0.0.1:8000',
       4 => '::1',
-      5 => 'depay.local',
+      5 => 'depay.name.ng',
     ),
     'guard' => 
     array (
@@ -980,7 +980,8 @@
     array (
       'enabled' => true,
       'server_url' => 'https://depayx-97f47e683cd63.flex.countly.com/',
-      'app_key' => '28d1d759237caa6033e62f8a8e67f3d2cbed56e5',
+      'app_key' => 'zkvtOv81dwEm860hkYQ7IoGaIpdRUDsN',
+      'debug' => true,
     ),
     'payment' => 
     array (
