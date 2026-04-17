@@ -2,23 +2,23 @@
 
 namespace App\Livewire;
 
-/**
- * Example Livewire Components Using Invisible Turnstile
- * 
- * These examples have been split into separate files following PSR-4 standards:
- * 
- * - PaymentProcessorExample.php
- * - AirtimeDataPurchaseExample.php
- * - FundTransferExample.php
- * - BillPaymentExample.php
- * 
- * This file is kept as a reference. Please use the individual component files instead.
- */
+use App\Services\TurnstileService;
+use Illuminate\View\View;
+use Livewire\Component;
 
-require_once __DIR__ . '/PaymentProcessorExample.php';
-require_once __DIR__ . '/AirtimeDataPurchaseExample.php';
-require_once __DIR__ . '/FundTransferExample.php';
-require_once __DIR__ . '/BillPaymentExample.php';
+/**
+ * Example 2: Airtime/Data Purchase Component
+ */
+class AirtimeDataPurchaseExample extends Component
+{
+    protected TurnstileService $turnstileService;
+    public string $serviceType = 'airtime'; // airtime, data
+    public string $network = '';
+    public string $amount = '';
+    public string $phoneNumber = '';
+    public bool $isProcessing = false;
+    public array $networks = ['MTN', 'Airtel', 'Glo', '9Mobile'];
+    public array $airtimeAmounts = ['100', '200', '500', '1000', '2000', '5000'];
     public array $dataPlans = [];
 
     public function mount(): void
@@ -82,11 +82,6 @@ require_once __DIR__ . '/BillPaymentExample.php';
                 'phoneNumber' => ['required', 'string', 'regex:/^\d{10,11}$/'],
             ]);
 
-            // Detect multiple requests for same action
-            if (!app(InvisibleTurnstile::class)->detectMultipleRequests('airtime_purchase')) {
-                throw new \Exception('Too many purchase attempts. Please wait.');
-            }
-
             // Verify Turnstile
             if (!$this->turnstileService->verify($token, request()->ip())) {
                 throw new \Exception('Security verification failed.');
@@ -122,19 +117,3 @@ require_once __DIR__ . '/BillPaymentExample.php';
         }
     }
 }
-
-/**
- * USAGE IN YOUR BLADE VIEWS
- * ==========================
- * 
- * <!-- Load invisible Turnstile at top of layout -->
- * @livewire('invisible-turnstile')
- * 
- * <!-- Use component with x-data for Alpine integration -->
- * @livewire('payment-processor-example')
- * 
- * <!-- Dispatch Turnstile when needed -->
- * <button @click="$dispatch('execute-protected-action', {action: 'payment'})">
- *     Pay Now
- * </button>
- */
