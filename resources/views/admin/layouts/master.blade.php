@@ -26,6 +26,7 @@
         $adminUser = auth('admin')->user();
         $menuItems = [
             ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => 'home'],
+            ['label' => 'Analytics', 'route' => 'admin.analytics', 'icon' => 'chart'],
             ['label' => 'Users', 'route' => 'admin.users.all', 'icon' => 'users'],
             ['label' => 'Deposits', 'route' => 'admin.deposit.list', 'icon' => 'wallet'],
             ['label' => 'Withdrawals', 'route' => 'admin.withdraw.log', 'icon' => 'cash'],

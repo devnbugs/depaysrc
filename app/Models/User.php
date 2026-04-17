@@ -106,6 +106,7 @@ class User extends Authenticatable implements HasPasskeys
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'onboarding_completed_at' => 'datetime',
         'address' => 'object',
         'ver_code_send_at' => 'datetime',
         'is_kyc_upgraded' => 'boolean',

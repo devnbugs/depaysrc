@@ -92,18 +92,17 @@ return [
         'api_key' => env('GECHARL_CONNECT_API_KEY'),
     ],
 
-    'cloudflare' => [
-        'turnstile_site_key' => env('CLOUDFLARE_TURNSTILE_SITE_KEY'),
-        'turnstile_secret_key' => env('CLOUDFLARE_TURNSTILE_SECRET_KEY'),
-        'recaptcha_site_key' => env('CLOUDFLARE_RECAPTCHA_SITE_KEY'),
-        'recaptcha_secret_key' => env('CLOUDFLARE_RECAPTCHA_SECRET_KEY'),
-    ],
-
     'countly' => [
         'enabled' => env('COUNTLY_ENABLED', false),
         'server_url' => env('COUNTLY_SERVER_URL', 'https://your-countly-server.com'),
         'app_key' => env('COUNTLY_APP_KEY', ''),
         'debug' => env('COUNTLY_DEBUG', false),
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', env('APP_URL') . '/auth/google/callback'),
     ],
 
     /*

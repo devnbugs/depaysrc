@@ -117,6 +117,18 @@ class SiteController extends Controller
         return view($this->activeTemplate.'privacy_pages',compact('content','pageTitle'));
     }
 
+    public function privacyPolicy()
+    {
+        $pageTitle = 'Privacy Policy';
+        return view($this->activeTemplate . 'legal.privacy-policy', compact('pageTitle'));
+    }
+
+    public function terms()
+    {
+        $pageTitle = 'Terms & Conditions';
+        return view($this->activeTemplate . 'legal.terms', compact('pageTitle'));
+    }
+
 
 
 }

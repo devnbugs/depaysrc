@@ -2,212 +2,179 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class TurnstileService
 {
-    private const TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
-    private const REQUEST_TIMEOUT = 10;
+    public function isEnabled(): bool
+    {
+        if (!config('turnstile.enabled')) {
+            return false;
+        }
 
-    /**
-     * Verify Turnstile response token, with Cloudflare cf_clearance support
-     */
+        return (bool) $this->getSiteKey() && (bool) $this->getSecretKey();
+    }
+
+    public function getSiteKey(): string
+    {
+        return (string) (config('turnstile.site_key') ?? '');
+    }
+
+    public function getSecretKey(): string
+    {
+        return (string) (config('turnstile.secret_key') ?? '');
+    }
+
     public function verify(string $token, ?string $ip = null): bool
     {
+        if (!$this->isEnabled()) {
+            return true;
+        }
+
+        $token = trim($token);
+        if ($token === '') {
+            return false;
+        }
+
         try {
-            $headers = [];
-            // Forward cf_clearance and other Cloudflare cookies if present
-            if (request()->hasCookie('cf_clearance')) {
-                $headers['Cookie'] = 'cf_clearance=' . request()->cookie('cf_clearance');
-            }
-            if (request()->hasCookie('__cf_bm')) {
-                $headers['Cookie'] = ($headers['Cookie'] ?? '') . '; __cf_bm=' . request()->cookie('__cf_bm');
+            $payload = [
+                'secret' => $this->getSecretKey(),
+                'response' => $token,
+            ];
+
+            if ($ip) {
+                $payload['remoteip'] = $ip;
             }
 
-            $response = Http::timeout(self::REQUEST_TIMEOUT)
-                ->withHeaders($headers)
-                ->post(self::TURNSTILE_VERIFY_URL, [
-                    'secret' => config('services.cloudflare.turnstile_secret_key'),
-                    'response' => $token,
-                    'remoteip' => $ip ?? request()->ip(),
-                ])
-                ->json();
+            $response = Http::asForm()
+                ->timeout(10)
+                ->post((string) config('turnstile.verify_url'), $payload);
 
-            // Enhanced logging for Cloudflare-protected apps
-            \Log::info('Turnstile verification response', [
-                'success' => $response['success'] ?? false,
-                'hostname' => $response['hostname'] ?? null,
-                'challenge_ts' => $response['challenge_ts'] ?? null,
-                'cf_cleared' => request()->hasCookie('cf_clearance'),
-                'cf_bm' => request()->hasCookie('__cf_bm'),
-                'ip' => $ip ?? request()->ip(),
+            if (!$response->ok()) {
+                $this->logSecurityEvent('Turnstile Verification HTTP Error', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'ip' => $ip,
+                ]);
+
+                return false;
+            }
+
+            $data = $response->json() ?? [];
+            $success = (bool) ($data['success'] ?? false);
+
+            if (!$success) {
+                $this->logSecurityEvent('Turnstile Verification Failed', [
+                    'ip' => $ip,
+                    'error_codes' => $data['error-codes'] ?? [],
+                ]);
+            }
+
+            return $success;
+        } catch (\Throwable $e) {
+            Log::warning('Turnstile verification exception', [
+                'message' => $e->getMessage(),
+                'ip' => $ip,
             ]);
 
-            return $response['success'] ?? false;
-        } catch (\Exception $e) {
-            \Log::error('Turnstile verification failed', [
-                'error' => $e->getMessage(),
-                'ip' => $ip ?? request()->ip(),
-            ]);
             return false;
         }
     }
 
-    /**
-     * Verify Turnstile and check for spam/abuse
-     */
     public function verifyWithProtection(
         string $token,
-        string $action = 'default',
+        string $action,
         ?string $ip = null,
         int $maxAttempts = 5,
         int $decayMinutes = 1
     ): bool {
-        $ip = $ip ?? request()->ip();
+        $ip = $ip ?: request()->ip();
 
-        // Check rate limiting
         if (!$this->checkRateLimit($ip, $action, $maxAttempts, $decayMinutes)) {
-            throw ValidationException::withMessages([
-                'cf-turnstile-response' => trans('Too many requests. Please try again later.'),
-            ]);
-        }
-
-        // Verify token
-        if (!$this->verify($token, $ip)) {
-            throw ValidationException::withMessages([
-                'cf-turnstile-response' => trans('Security verification failed. Please try again.'),
-            ]);
-        }
-
-        return true;
-    }
-
-    /**
-     * Check rate limit for IP address
-     */
-    public function checkRateLimit(
-        string $ip,
-        string $action = 'default',
-        int $maxAttempts = 5,
-        int $decayMinutes = 1
-    ): bool {
-        $key = "turnstile:{$action}:{$ip}";
-        
-        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            $this->trackSuspiciousActivity($ip, "Rate limit exceeded for action: {$action}");
             return false;
         }
 
-        RateLimiter::hit($key, $decayMinutes * 60);
-        return true;
+        $verified = $this->verify($token, $ip);
+        if (!$verified) {
+            $this->trackSuspiciousActivity($ip, "Turnstile token verification failed for action: {$action}");
+        }
+
+        return $verified;
     }
 
-    /**
-     * Reset rate limit for IP
-     */
-    public function resetRateLimit(string $ip, string $action = 'default'): void
-    {
-        $key = "turnstile:{$action}:{$ip}";
-        RateLimiter::clear($key);
-    }
+    public function checkRateLimit(
+        string $ip,
+        string $action,
+        int $maxAttempts = null,
+        int $decayMinutes = null
+    ): bool {
+        $maxAttempts = $maxAttempts ?? (int) config('turnstile.rate_limit.default_max_attempts', 5);
+        $decayMinutes = $decayMinutes ?? (int) config('turnstile.rate_limit.default_decay_minutes', 1);
 
-    /**
-     * Get Turnstile site key
-     */
-    public function getSiteKey(): string
-    {
-        return (string)(config('services.cloudflare.turnstile_site_key') ?? '');
-    }
+        $key = "turnstile:rate:{$action}:{$ip}";
 
-    /**
-     * Check if Turnstile is enabled
-     */
-    public function isEnabled(): bool
-    {
-        $siteKey = config('services.cloudflare.turnstile_site_key');
-        $secretKey = config('services.cloudflare.turnstile_secret_key');
-        
-        return !empty($siteKey) && !empty($secretKey);
-    }
-
-    /**
-     * Get Turnstile theme preference (auto, light, dark)
-     */
-    public function getTheme(): string
-    {
-        return (string)(config('services.cloudflare.turnstile_theme') ?? 'auto');
-    }
-
-    /**
-     * Log security event
-     */
-    public function logSecurityEvent(string $event, array $data = []): void
-    {
-        \Log::info("Turnstile Security Event: {$event}", [
-            'ip' => request()->ip(),
-            'user_agent' => request()->userAgent(),
-            'timestamp' => now()->toIso8601String(),
-            ...$data,
-        ]);
-    }
-
-    /**
-     * Track suspension and block abuse
-     */
-    public function trackSuspiciousActivity(string $ip, string $reason, int $banMinutes = 15): void
-    {
-        $key = "suspicious:{$ip}";
-        
-        $count = \Cache::increment($key);
+        $count = Cache::increment($key);
         if ($count === 1) {
-            \Cache::put($key, $count, now()->addMinutes($banMinutes));
+            Cache::put($key, $count, now()->addMinutes($decayMinutes));
         }
 
-        if ($count >= 3) {
-            // Block the IP
-            $this->blockIP($ip, $reason, $banMinutes);
-        }
-
-        $this->logSecurityEvent('Suspicious Activity Detected', [
-            'reason' => $reason,
-            'attempt_count' => $count,
-            'ip' => $ip,
-        ]);
+        return $count <= $maxAttempts;
     }
 
-    /**
-     * Block IP address
-     */
-    public function blockIP(string $ip, string $reason = '', int $minutes = 60): void
+    public function trackSuspiciousActivity(string $ip, string $reason): void
     {
-        \Cache::put("blocked_ip:{$ip}", [
+        $key = "turnstile:suspicious:{$ip}";
+        $count = Cache::increment($key);
+
+        if ($count === 1) {
+            Cache::put($key, $count, now()->addMinutes(30));
+        }
+
+        $this->logSecurityEvent('Suspicious Activity', [
+            'ip' => $ip,
             'reason' => $reason,
-            'blocked_at' => now(),
-        ], now()->addMinutes($minutes));
+            'count' => $count,
+        ]);
+
+        $threshold = (int) config('turnstile.blocking.suspicious_threshold', 10);
+        if ($count >= $threshold) {
+            $this->blockIP($ip, $reason);
+        }
+    }
+
+    public function isIPBlocked(string $ip): bool
+    {
+        return Cache::has($this->blockedKey($ip));
+    }
+
+    public function getBlockReason(string $ip): string
+    {
+        return (string) Cache::get($this->blockedKey($ip), 'Access temporarily blocked.');
+    }
+
+    public function blockIP(string $ip, string $reason): void
+    {
+        $minutes = (int) config('turnstile.blocking.block_minutes', 60);
+        Cache::put($this->blockedKey($ip), $reason, now()->addMinutes($minutes));
 
         $this->logSecurityEvent('IP Blocked', [
             'ip' => $ip,
             'reason' => $reason,
-            'duration_minutes' => $minutes,
+            'minutes' => $minutes,
         ]);
     }
 
-    /**
-     * Check if IP is blocked
-     */
-    public function isIPBlocked(string $ip): bool
+    public function logSecurityEvent(string $event, array $context = []): void
     {
-        return \Cache::has("blocked_ip:{$ip}");
+        Log::info("Turnstile: {$event}", $context);
     }
 
-    /**
-     * Get blocked IP reason
-     */
-    public function getBlockReason(string $ip): ?string
+    protected function blockedKey(string $ip): string
     {
-        $blocked = \Cache::get("blocked_ip:{$ip}");
-        return $blocked['reason'] ?? null;
+        return "turnstile:blocked:{$ip}";
     }
 }
+

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\KycServicesController as AdminKycServicesControll
 use App\Http\Controllers\PaystackWebhookController;
 use App\Http\Controllers\Paystack\ClientController;
 use App\Http\Controllers\Paystack\DVAController;
+use App\Http\Controllers\TurnstilePreclearanceController;
 use Spatie\LaravelPasskeys\Http\Controllers\AuthenticateUsingPasskeyController;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
 
@@ -32,6 +33,10 @@ use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptions
 Route::post('check', function () {
     return response()->json(['message' => 'POST request works!']);
 });
+
+// Turnstile preclearance (hidden)
+Route::get('/turnstile/preclearance', [TurnstilePreclearanceController::class, 'show'])->name('turnstile.preclearance.show');
+Route::post('/turnstile/preclearance/verify', [TurnstilePreclearanceController::class, 'verify'])->name('turnstile.preclearance.verify');
 
 
 Route::get('/status/easyaccess', [NetworkController::class, 'easyaccess']);
@@ -99,6 +104,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('admin')->group(function () {
         Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+        Route::get('analytics', 'AnalyticsController@index')->name('analytics');
         Route::get('profile', 'AdminController@profile')->name('profile');
         Route::post('profile', 'AdminController@profileUpdate')->name('profile.update');
         Route::get('password', 'AdminController@password')->name('password');
@@ -462,6 +468,14 @@ Route::name('user.')->group(function () {
     Route::get('/register', 'Auth\RegisterController@showform')->name('register');
     Route::post('register', 'Auth\RegisterController@register')->middleware('regStatus');
 
+    // Google OAuth
+    Route::middleware('guest')->group(function () {
+        Route::get('/auth/google/redirect', 'Auth\GoogleAuthController@redirect')->name('google.redirect');
+        Route::get('/auth/google/callback', 'Auth\GoogleAuthController@callback')->name('google.callback');
+        Route::get('/auth/google/onboarding', 'Auth\GoogleAuthController@showOnboarding')->name('google.onboarding.show');
+        Route::post('/auth/google/onboarding', 'Auth\GoogleAuthController@completeOnboarding')->name('google.onboarding.complete');
+    });
+
     Route::get('/password/reset', 'Auth\ForgotPasswordController@resetpassword')->name('password.request');
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetCodeEmail')->name('password.email');
     Route::get('password/code-verify', 'Auth\ForgotPasswordController@codeVerify')->name('password.code.verify');
@@ -709,7 +723,9 @@ Route::prefix('cron')->name('cron.')->group(function(){
 });
 
 
-Route::get('/privacy-policy', 'SiteController@privacyPage')->name('privacy.page');
+Route::get('/privacy-policy', 'SiteController@privacyPolicy')->name('legal.privacy');
+Route::get('/terms', 'SiteController@terms')->name('legal.terms');
+Route::get('/policy/{slug}/{id}', 'SiteController@privacyPage')->name('privacy.page');
 Route::get('/contact', 'SiteController@contact')->name('contact');
 Route::post('/contact', 'SiteController@contactSubmit');
 Route::get('/change/{lang?}', 'SiteController@changeLanguage')->name('lang');
@@ -747,4 +763,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Other shared routes can be added here
 });
-
