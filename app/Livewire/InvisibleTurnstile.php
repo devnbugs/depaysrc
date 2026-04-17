@@ -20,7 +20,6 @@ use Livewire\Component;
  */
 class InvisibleTurnstile extends Component
 {
-    public TurnstileService $turnstileService;
     public string $turnstileToken = '';
     public string $protectionMode = 'invisible'; // invisible, managed
     public bool $isReady = false;
@@ -29,17 +28,17 @@ class InvisibleTurnstile extends Component
 
     public function mount(): void
     {
-        $this->turnstileService = app(TurnstileService::class);
-        
         // Check if user has recent suspicious activities
         $this->checkSuspiciousActivities();
     }
 
     public function render(): View
     {
+        $turnstileService = app(TurnstileService::class);
+        
         return view('livewire.invisible-turnstile', [
-            'siteKey' => $this->turnstileService->getSiteKey(),
-            'isEnabled' => $this->turnstileService->isEnabled(),
+            'siteKey' => $turnstileService->getSiteKey(),
+            'isEnabled' => $turnstileService->isEnabled(),
             'isReady' => $this->isReady,
             'showChallenge' => $this->showChallenge,
         ]);
@@ -52,9 +51,10 @@ class InvisibleTurnstile extends Component
     public function initializeWidget(): void
     {
         $this->isReady = true;
+        $turnstileService = app(TurnstileService::class);
         
         // Log initialization
-        $this->turnstileService->logSecurityEvent('Invisible Turnstile Initialized', [
+        $turnstileService->logSecurityEvent('Invisible Turnstile Initialized', [
             'user_id' => auth()->id(),
             'protection_mode' => $this->protectionMode,
         ]);
@@ -66,17 +66,19 @@ class InvisibleTurnstile extends Component
      */
     public function handleToken(string $token): void
     {
+        $turnstileService = app(TurnstileService::class);
+        
         try {
-            if ($this->turnstileService->verify($token, request()->ip())) {
+            if ($turnstileService->verify($token, request()->ip())) {
                 $this->turnstileToken = $token;
                 $this->dispatch('turnstileTokenReceived', ['token' => $token]);
                 
-                $this->turnstileService->logSecurityEvent('Invisible Turnstile Verified', [
+                $turnstileService->logSecurityEvent('Invisible Turnstile Verified', [
                     'user_id' => auth()->id(),
                     'action' => 'token_verified',
                 ]);
             } else {
-                $this->turnstileService->trackSuspiciousActivity(
+                $turnstileService->trackSuspiciousActivity(
                     request()->ip(),
                     'Invalid Turnstile token in invisible mode'
                 );
@@ -95,6 +97,7 @@ class InvisibleTurnstile extends Component
      */
     public function detectMultipleRequests(string $action = 'default'): bool
     {
+        $turnstileService = app(TurnstileService::class);
         $userId = auth()->id();
         $ip = request()->ip();
         $key = "user_requests:{$userId}:{$action}";
@@ -107,7 +110,7 @@ class InvisibleTurnstile extends Component
 
         // Alert if more than 5 requests per minute
         if ($count > 5) {
-            $this->turnstileService->trackSuspiciousActivity(
+            $turnstileService->trackSuspiciousActivity(
                 $ip,
                 "Multiple rapid requests detected: {$count} requests in 1 minute for action: {$action}"
             );
@@ -129,10 +132,11 @@ class InvisibleTurnstile extends Component
      */
     private function checkSuspiciousActivities(): void
     {
+        $turnstileService = app(TurnstileService::class);
         $ip = request()->ip();
         
-        if ($this->turnstileService->isIPBlocked($ip)) {
-            $reason = $this->turnstileService->getBlockReason($ip);
+        if ($turnstileService->isIPBlocked($ip)) {
+            $reason = $turnstileService->getBlockReason($ip);
             $this->suspiciousActivities[] = "Your access has been temporarily blocked: {$reason}";
             
             $this->dispatch('accessBlocked', ['reason' => $reason]);
@@ -145,9 +149,11 @@ class InvisibleTurnstile extends Component
      */
     public function verifyAction(string $action, string $token): bool
     {
+        $turnstileService = app(TurnstileService::class);
+        
         // Check rate limits (10 attempts per 5 minutes)
-        if (!$this->turnstileService->checkRateLimit(request()->ip(), $action, 10, 5)) {
-            $this->turnstileService->trackSuspiciousActivity(
+        if (!$turnstileService->checkRateLimit(request()->ip(), $action, 10, 5)) {
+            $turnstileService->trackSuspiciousActivity(
                 request()->ip(),
                 "Rate limit exceeded for action: {$action}"
             );
@@ -157,8 +163,8 @@ class InvisibleTurnstile extends Component
         }
 
         // Verify token
-        if (empty($token) || !$this->turnstileService->verify($token, request()->ip())) {
-            $this->turnstileService->trackSuspiciousActivity(
+        if (empty($token) || !$turnstileService->verify($token, request()->ip())) {
+            $turnstileService->trackSuspiciousActivity(
                 request()->ip(),
                 "Turnstile verification failed for action: {$action}"
             );
@@ -167,7 +173,7 @@ class InvisibleTurnstile extends Component
         }
 
         // Log successful verification
-        $this->turnstileService->logSecurityEvent('Action Verified with Invisible Turnstile', [
+        $turnstileService->logSecurityEvent('Action Verified with Invisible Turnstile', [
             'user_id' => auth()->id(),
             'action' => $action,
             'ip' => request()->ip(),
@@ -186,18 +192,19 @@ class InvisibleTurnstile extends Component
         int $maxAttempts = 3,
         int $decayMinutes = 15
     ): bool {
+        $turnstileService = app(TurnstileService::class);
         $ip = request()->ip();
         $userId = auth()->id();
         
         // 1. Check if IP is blocked
-        if ($this->turnstileService->isIPBlocked($ip)) {
+        if ($turnstileService->isIPBlocked($ip)) {
             return false;
         }
 
         // 2. Check rate limiting
         $key = "sensitive_request:{$userId}:{$requestType}";
         if (\Cache::has($key) && \Cache::get($key) >= $maxAttempts) {
-            $this->turnstileService->trackSuspiciousActivity(
+            $turnstileService->trackSuspiciousActivity(
                 $ip,
                 "Max attempts exceeded for sensitive request: {$requestType}"
             );
@@ -216,7 +223,7 @@ class InvisibleTurnstile extends Component
         }
 
         // 5. Log the request
-        $this->turnstileService->logSecurityEvent('Sensitive Request Protected', [
+        $turnstileService->logSecurityEvent('Sensitive Request Protected', [
             'user_id' => $userId,
             'request_type' => $requestType,
             'attempt' => $attempts,
@@ -231,14 +238,15 @@ class InvisibleTurnstile extends Component
      */
     public function getSecurityStatus(): array
     {
+        $turnstileService = app(TurnstileService::class);
         $userId = auth()->id();
         $ip = request()->ip();
 
         return [
             'user_id' => $userId,
             'ip' => $ip,
-            'is_blocked' => $this->turnstileService->isIPBlocked($ip),
-            'is_enabled' => $this->turnstileService->isEnabled(),
+            'is_blocked' => $turnstileService->isIPBlocked($ip),
+            'is_enabled' => $turnstileService->isEnabled(),
             'suspicious_activities' => $this->suspiciousActivities,
             'token' => $this->turnstileToken,
         ];
