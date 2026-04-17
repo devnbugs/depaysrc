@@ -82,64 +82,107 @@ class LocalTransferManager
     public function resolve(array $bank, string $accountNumber, ?array $config = null): array
     {
         $config ??= $this->settings->values();
-        $errors = [];
-
-        foreach ($config['resolve_order'] as $providerKey) {
-            $provider = $this->providers[$providerKey] ?? null;
-            $providerSettings = $config['providers'][$providerKey] ?? [];
-
-            if (! $provider || ! $provider->isConfigured($providerSettings)) {
-                continue;
-            }
-
-            try {
-                $resolved = $provider->resolveAccount($bank, $accountNumber, $providerSettings);
-                $resolved['resolved_by'] = $providerKey;
-                $resolved['bank_name'] = $resolved['bank_name'] ?: ($bank['name'] ?? '');
-                $resolved['bank_code'] = $resolved['bank_code'] ?: ($bank['code'] ?? '');
-
-                return $resolved;
-            } catch (\Throwable $exception) {
-                $errors[] = $provider->label().': '.$exception->getMessage();
-            }
+        
+        // Use ONLY the configured resolution provider without fallback
+        if (! isset($config['resolve_order']) || empty($config['resolve_order'])) {
+            throw new RuntimeException('No account resolution provider is configured.');
         }
 
-        throw new RuntimeException($errors !== [] ? implode(' ', $errors) : 'No live account resolve provider is configured yet. Please add at least one provider key in admin settings.');
+        $primaryProvider = $config['resolve_order'][0] ?? null;
+        if (! $primaryProvider) {
+            throw new RuntimeException('No primary account resolution provider is configured.');
+        }
+
+        $provider = $this->providers[$primaryProvider] ?? null;
+        $providerSettings = $config['providers'][$primaryProvider] ?? [];
+
+        if (! $provider) {
+            throw new RuntimeException('Account resolution provider "'.$primaryProvider.'" is not available.');
+        }
+
+        if (! $provider->isConfigured($providerSettings)) {
+            throw new RuntimeException('Account resolution provider "'.$primaryProvider.'" is not properly configured.');
+        }
+
+        try {
+            $resolved = $provider->resolveAccount($bank, $accountNumber, $providerSettings);
+            $resolved['resolved_by'] = $primaryProvider;
+            $resolved['bank_name'] = $resolved['bank_name'] ?: ($bank['name'] ?? '');
+            $resolved['bank_code'] = $resolved['bank_code'] ?: ($bank['code'] ?? '');
+
+            return $resolved;
+        } catch (\Throwable $exception) {
+            throw new RuntimeException($provider->label().': '.$exception->getMessage());
+        }
     }
 
     public function transfer(array $payload, ?array $config = null): array
     {
         $config ??= $this->settings->values();
-        $errors = [];
-
-        foreach ($config['transfer_order'] as $providerKey) {
-            $provider = $this->providers[$providerKey] ?? null;
-            $providerSettings = $config['providers'][$providerKey] ?? [];
-
-            if (! $provider || ! $provider->isConfigured($providerSettings)) {
-                continue;
-            }
-
-            try {
-                $response = $provider->transfer($payload, $providerSettings);
-
-                if (($response['status'] ?? 'failed') !== 'failed') {
-                    return $response;
-                }
-
-                $errors[] = $provider->label().': '.($response['message'] ?? 'Transfer failed.');
-            } catch (\Throwable $exception) {
-                $errors[] = $provider->label().': '.$exception->getMessage();
-            }
+        
+        // Use ONLY the configured transfer provider without fallback
+        if (! isset($config['transfer_order']) || empty($config['transfer_order'])) {
+            return [
+                'status' => 'failed',
+                'message' => 'No transfer provider is configured. Please configure at least one provider in settings.',
+                'provider' => null,
+                'meta' => [],
+            ];
         }
 
-        return [
-            'status' => 'failed',
-            'message' => $errors !== [] ? implode(' ', $errors) : 'No transfer provider is configured right now.',
-            'provider' => null,
-            'meta' => [
-                'attempts' => $errors,
-            ],
-        ];
+        $primaryProvider = $config['transfer_order'][0] ?? null;
+        if (! $primaryProvider) {
+            return [
+                'status' => 'failed',
+                'message' => 'No primary transfer provider is configured.',
+                'provider' => null,
+                'meta' => [],
+            ];
+        }
+
+        $provider = $this->providers[$primaryProvider] ?? null;
+        $providerSettings = $config['providers'][$primaryProvider] ?? [];
+
+        if (! $provider) {
+            return [
+                'status' => 'failed',
+                'message' => 'Transfer provider "'.$primaryProvider.'" is not available.',
+                'provider' => null,
+                'meta' => [],
+            ];
+        }
+
+        if (! $provider->isConfigured($providerSettings)) {
+            return [
+                'status' => 'failed',
+                'message' => 'Transfer provider "'.$primaryProvider.'" is not properly configured.',
+                'provider' => null,
+                'meta' => [],
+            ];
+        }
+
+        try {
+            $response = $provider->transfer($payload, $providerSettings);
+            
+            if (! is_array($response)) {
+                return [
+                    'status' => 'failed',
+                    'message' => 'Transfer provider returned invalid response.',
+                    'provider' => $primaryProvider,
+                    'meta' => [],
+                ];
+            }
+
+            return $response;
+        } catch (\Throwable $exception) {
+            return [
+                'status' => 'failed',
+                'message' => $exception->getMessage() ?: 'Transfer failed.',
+                'provider' => $primaryProvider,
+                'meta' => [
+                    'error' => $exception->getMessage(),
+                ],
+            ];
+        }
     }
 }

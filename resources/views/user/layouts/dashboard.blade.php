@@ -268,6 +268,8 @@
         </aside>
     </div>
 
+    @livewire('invisible-turnstile')
+
     @livewireScripts
     @stack('script-lib')
     @stack('script')

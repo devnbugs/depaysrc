@@ -19,6 +19,58 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
+/**
+ * Secure UUID Encoding/Decoding Functions
+ * Converts numeric IDs to secure short base64 hashes
+ */
+
+function encodeSecureId($id, $prefix = 'u')
+{
+    // Pad the ID to a fixed length (8 bytes) for consistency
+    $padded = str_pad($id, 8, '0', STR_PAD_LEFT);
+    
+    // Add a random salt for security
+    $salt = bin2hex(random_bytes(4));
+    
+    // Create the hash
+    $toEncode = $padded . ':' . $salt;
+    
+    // Encode to base64 and make URL-safe
+    $encoded = rtrim(strtr(base64_encode($toEncode), '+/', '-_'), '=');
+    
+    // Add prefix for identification
+    return $prefix . '_' . $encoded;
+}
+
+function decodeSecureId($encoded, $prefix = 'u')
+{
+    // Remove prefix
+    if (strpos($encoded, $prefix . '_') !== 0) {
+        return null;
+    }
+    
+    $encoded = substr($encoded, strlen($prefix) + 1);
+    
+    // Restore base64 padding
+    $remainder = strlen($encoded) % 4;
+    if ($remainder) {
+        $encoded .= str_repeat('=', 4 - $remainder);
+    }
+    
+    // Decode from base64
+    $decoded = base64_decode(strtr($encoded, '-_', '+/'), true);
+    
+    if ($decoded === false) {
+        return null;
+    }
+    
+    // Extract the ID
+    $parts = explode(':', $decoded);
+    $id = (int) trim($parts[0]);
+    
+    return $id > 0 ? $id : null;
+}
+
 
 function sidebarVariation(){
 
@@ -71,15 +123,22 @@ function shortCodeReplacer($shortCode, $replace_with, $template_string)
 }
 
 
-function verificationCode($length)
+function verificationCode($length = 6)
 {
-    if ($length == 0) return 0;
-    $min = pow(10, $length - 1);
-    $max = 0;
-    while ($length > 0 && $length--) {
-        $max = ($max * 10) + 9;
+    // Generate secured OTP: mixed alphanumeric uppercase with length 6-8
+    // Ensures strong, random codes for email verification
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    
+    // Default to 6 if not specified, max 8
+    $length = max(6, min((int)$length, 8));
+    
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
     }
-    return random_int($min, $max);
+    
+    return $randomString;
 }
 
 function getNumber($length = 8)

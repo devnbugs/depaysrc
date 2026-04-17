@@ -145,7 +145,7 @@ class InvisibleTurnstile extends Component
      */
     public function verifyAction(string $action, string $token): bool
     {
-        // Check rate limits
+        // Check rate limits (10 attempts per 5 minutes)
         if (!$this->turnstileService->checkRateLimit(request()->ip(), $action, 10, 5)) {
             $this->turnstileService->trackSuspiciousActivity(
                 request()->ip(),
@@ -157,7 +157,7 @@ class InvisibleTurnstile extends Component
         }
 
         // Verify token
-        if (!$this->turnstileService->verify($token, request()->ip())) {
+        if (empty($token) || !$this->turnstileService->verify($token, request()->ip())) {
             $this->turnstileService->trackSuspiciousActivity(
                 request()->ip(),
                 "Turnstile verification failed for action: {$action}"
@@ -170,6 +170,7 @@ class InvisibleTurnstile extends Component
         $this->turnstileService->logSecurityEvent('Action Verified with Invisible Turnstile', [
             'user_id' => auth()->id(),
             'action' => $action,
+            'ip' => request()->ip(),
         ]);
 
         return true;

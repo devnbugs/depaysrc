@@ -58,7 +58,8 @@
                 </form>
             </div>
 
-            <div class="rounded-3xl border border-slate-200 bg-slate-50/70 p-5 dark:border-white/10 dark:bg-white/5">
+            <!-- QUICKTELLER DEPOSIT DISABLED -->
+            {{-- <div class="rounded-3xl border border-slate-200 bg-slate-50/70 p-5 dark:border-white/10 dark:bg-white/5">
                 <div class="flex items-start justify-between gap-4">
                     <div>
                         <p class="text-sm font-semibold text-slate-950 dark:text-white">Quickteller Pay</p>
@@ -85,7 +86,7 @@
                         <span id="quicktellerStatus" class="text-sm text-slate-500 dark:text-zinc-400"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 

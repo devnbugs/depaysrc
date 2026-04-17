@@ -61,13 +61,51 @@
                     isProcessing: false,
                     actionQueue: [],
                     suspiciousCount: 0,
+                    widgetId: null,
 
                     /**
                      * Initialize Turnstile widget
                      */
                     initTurnstile() {
                         @this.initializeWidget();
-                        console.log('🔐 Invisible Turnstile initialized');
+                        console.log('🔐 Invisible Turnstile initializing...');
+                        
+                        // Wait for Turnstile API to load
+                        if (typeof turnstile !== 'undefined') {
+                            this.renderTurnstile();
+                        } else {
+                            setTimeout(() => this.renderTurnstile(), 500);
+                        }
+                    },
+
+                    /**
+                     * Render the invisible Turnstile widget
+                     */
+                    renderTurnstile() {
+                        if (typeof turnstile === 'undefined') {
+                            console.warn('⚠ Turnstile API not loaded yet');
+                            return;
+                        }
+
+                        const container = document.getElementById('cf-invisible-turnstile');
+                        if (container && !this.widgetId) {
+                            this.widgetId = turnstile.render('#cf-invisible-turnstile', {
+                                sitekey: '{{ $siteKey }}',
+                                theme: 'dark',
+                                size: 'invisible',
+                                callback: (token) => this.onTokenReceived(token),
+                                'error-callback': () => this.onTurnstileError(),
+                                'expired-callback': () => this.onTurnstileExpired(),
+                                'timeout-callback': () => this.onTurnstileTimeout(),
+                                language: 'auto',
+                                'auto-reset-timeout': 5000,
+                                'retry': 'auto',
+                                'retry-interval': 5000,
+                                'response-field': false,
+                                'response-field-name': 'invisible-turnstile-token'
+                            });
+                            console.log('✓ Invisible Turnstile rendered with ID:', this.widgetId);
+                        }
                     },
 
                     /**
@@ -87,30 +125,52 @@
                         this.showLoadingIndicator();
 
                         // Check for multiple requests
-                        if (!@this.detectMultipleRequests(actionType)) {
-                            this.showSecurityAlert('⛔ Too many requests. Please wait before trying again.', 'error');
-                            this.isProcessing = false;
-                            this.hideLoadingIndicator();
-                            return false;
-                        }
+                        @this.detectMultipleRequests(actionType).then(allowed => {
+                            if (!allowed) {
+                                this.showSecurityAlert('⛔ Too many requests. Please wait before trying again.', 'error');
+                                this.isProcessing = false;
+                                this.hideLoadingIndicator();
+                                return false;
+                            }
 
-                        // Execute Turnstile
-                        grecaptcha.execute();
+                            // Execute Turnstile (non-interactive, auto-submits)
+                            if (typeof turnstile !== 'undefined' && this.widgetId !== null) {
+                                turnstile.execute(this.widgetId);
+                            } else {
+                                console.error('✗ Turnstile widget not ready');
+                                this.showSecurityAlert('Security verification unavailable. Please try again.');
+                                this.isProcessing = false;
+                                this.hideLoadingIndicator();
+                            }
+                        });
+
+                        return true;
                     },
 
                     /**
                      * Handle successful Turnstile verification
                      */
                     onTokenReceived(token) {
+                        if (!token || token.length === 0) {
+                            console.error('✗ Empty token received');
+                            return;
+                        }
+
                         this.token = token;
-                        console.log('✓ Turnstile token received');
+                        console.log('✓ Turnstile token received, length:', token.length);
                         
+                        // Store token
+                        document.getElementById('invisible-turnstile-token').value = token;
+                        
+                        // Notify Livewire component
                         @this.call('handleToken', token);
 
                         // Process queued actions
                         if (this.actionQueue.length > 0) {
                             const { actionType, actionData } = this.actionQueue.shift();
-                            this.executeProtectedAction(actionType, actionData);
+                            this.isProcessing = false;
+                            this.hideLoadingIndicator();
+                            setTimeout(() => this.executeProtectedAction(actionType, actionData), 200);
                         } else {
                             this.isProcessing = false;
                             this.hideLoadingIndicator();
@@ -173,10 +233,12 @@
                         const container = document.getElementById('inline-turnstile-container');
                         if (container) {
                             container.classList.remove('hidden');
-                            grecaptcha.render('cf-inline-turnstile', {
-                                sitekey: '{{ $siteKey }}',
-                                callback: () => this.onInlineTurnstileComplete(),
-                            });
+                            if (typeof turnstile !== 'undefined') {
+                                turnstile.render('#cf-inline-turnstile', {
+                                    sitekey: '{{ $siteKey }}',
+                                    callback: () => this.onInlineTurnstileComplete(),
+                                });
+                            }
                         }
                     },
 
@@ -197,6 +259,34 @@
                         console.log('✓ Inline Turnstile completed');
                         this.hideInlineTurnstile();
                         this.$dispatch('turnstile-verified');
+                    },
+
+                    /**
+                     * Handle Turnstile errors
+                     */
+                    onTurnstileError() {
+                        console.error('✗ Turnstile error');
+                        document.getElementById('invisible-turnstile-token').value = '';
+                        this.isProcessing = false;
+                        this.hideLoadingIndicator();
+                        this.showSecurityAlert('Security verification failed. Please try again.');
+                    },
+
+                    /**
+                     * Handle Turnstile expiry
+                     */
+                    onTurnstileExpired() {
+                        console.warn('⚠ Turnstile token expired');
+                        document.getElementById('invisible-turnstile-token').value = '';
+                        // Auto-refresh happens automatically
+                    },
+
+                    /**
+                     * Handle Turnstile timeout
+                     */
+                    onTurnstileTimeout() {
+                        console.warn('⚠ Turnstile timeout - will retry');
+                        // Auto-retry happens automatically
                     }
                 };
             }
@@ -207,13 +297,15 @@
 
             // Called when invisible Turnstile is successful
             function onInvisibleTurnstileSuccess(token) {
-                console.log('✓ Invisible Turnstile successful');
+                console.log('✓ Invisible Turnstile successful, token length:', token.length);
                 document.getElementById('invisible-turnstile-token').value = token;
                 
                 // Dispatch to Alpine component
                 const container = document.querySelector('[x-data="invisibleTurnstile()"]');
-                if (container && container.__x) {
+                if (container && container.__x && container.__x.$data) {
                     container.__x.$data.onTokenReceived(token);
+                } else {
+                    console.warn('⚠ Alpine component not found or not initialized');
                 }
             }
 
@@ -221,34 +313,74 @@
             function onInvisibleTurnstileError(errorData) {
                 console.error('✗ Invisible Turnstile error:', errorData);
                 document.getElementById('invisible-turnstile-token').value = '';
+                
+                const container = document.querySelector('[x-data="invisibleTurnstile()"]');
+                if (container && container.__x && container.__x.$data) {
+                    container.__x.$data.onTurnstileError();
+                }
             }
 
             // Called when token expires
             function onInvisibleTurnstileExpired() {
                 console.warn('⚠ Invisible Turnstile token expired');
                 document.getElementById('invisible-turnstile-token').value = '';
+                
+                const container = document.querySelector('[x-data="invisibleTurnstile()"]');
+                if (container && container.__x && container.__x.$data) {
+                    container.__x.$data.onTurnstileExpired();
+                }
                 // Will auto-refresh
             }
 
             // Called on timeout
             function onInvisibleTurnstileTimeout() {
                 console.warn('⚠ Invisible Turnstile timeout - will retry');
+                const container = document.querySelector('[x-data="invisibleTurnstile()"]');
+                if (container && container.__x && container.__x.$data) {
+                    container.__x.$data.onTurnstileTimeout();
+                }
             }
+
+            /**
+             * Initialize Turnstile when page loads
+             */
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('📄 DOM loaded, initializing Turnstile...');
+                
+                // Wait for Turnstile API to load
+                const checkTurnstile = setInterval(() => {
+                    if (typeof turnstile !== 'undefined') {
+                        clearInterval(checkTurnstile);
+                        const container = document.querySelector('[x-data="invisibleTurnstile()"]');
+                        if (container && container.__x && container.__x.$data) {
+                            container.__x.$data.renderTurnstile();
+                            console.log('✓ Turnstile initialized');
+                        }
+                    }
+                }, 100);
+
+                // Timeout after 5 seconds
+                setTimeout(() => clearInterval(checkTurnstile), 5000);
+            });
 
             /**
              * Livewire Event Listeners
              */
             document.addEventListener('livewire:updated', function() {
                 // Handle Livewire updates if needed
+                console.log('🔄 Livewire updated');
             });
 
             // Dispatch Turnstile when needed
             document.addEventListener('dispatch-invisible-turnstile', function() {
-                grecaptcha.execute();
+                const container = document.querySelector('[x-data="invisibleTurnstile()"]');
+                if (container && container.__x && container.__x.$data) {
+                    container.__x.$data.executeProtectedAction('manual_execution');
+                }
             });
         </script>
 
-        <!-- Load Turnstile API if not already loaded -->
+        <!-- Load Turnstile API -->
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     @else
         <!-- Fallback when Turnstile is not configured -->

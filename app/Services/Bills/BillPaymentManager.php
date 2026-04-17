@@ -489,22 +489,14 @@ class BillPaymentManager
     {
         $settings ??= $this->settings();
         $preferred = $settings['service_providers'][$service] ?? $settings['default_provider'];
-        $candidates = array_unique(array_filter([$preferred, $settings['default_provider'], 'budpay', 'squad']));
-
-        foreach ($candidates as $key) {
-            $provider = $this->provider($key);
-            if (! $provider || ! $provider->supports($service)) {
-                continue;
-            }
-
-            if (! $provider->isConfigured($this->providerSettings($key, $settings))) {
-                continue;
-            }
-
-            return [$provider, $key];
+        
+        // Use ONLY the configured provider without fallback
+        $provider = $this->provider($preferred);
+        if ($provider && $provider->supports($service) && $provider->isConfigured($this->providerSettings($preferred, $settings))) {
+            return [$provider, $preferred];
         }
 
-        throw new RuntimeException('No configured bill payment provider is available for '.$this->serviceLabels()[$service].'.');
+        throw new RuntimeException('Bill payment provider "'.$preferred.'" is not configured or does not support '.$this->serviceLabels()[$service].'.');
     }
 
     protected function provider(string $key): ?AbstractBillPaymentProvider

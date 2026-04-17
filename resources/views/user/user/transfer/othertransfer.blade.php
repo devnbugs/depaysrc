@@ -144,7 +144,13 @@
                             @if ($settings['require_pin'] && (int) $user->pin_state === 1)
                                 <div class="mt-5 space-y-2">
                                     <label for="pin-code" class="text-sm font-semibold text-slate-700 dark:text-zinc-300">Authorization PIN</label>
-                                    <input type="password" inputmode="numeric" maxlength="4" id="pin-code" name="pin_code" placeholder="Enter your 4-digit PIN" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-sky-500 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+                                    <div id="pin-input-container" class="flex gap-2">
+                                        <input type="text" inputmode="numeric" maxlength="1" placeholder="0" class="pin-digit-input w-12 rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+                                        <input type="text" inputmode="numeric" maxlength="1" placeholder="0" class="pin-digit-input w-12 rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+                                        <input type="text" inputmode="numeric" maxlength="1" placeholder="0" class="pin-digit-input w-12 rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+                                        <input type="text" inputmode="numeric" maxlength="1" placeholder="0" class="pin-digit-input w-12 rounded-xl border border-slate-300 bg-white py-3 text-center text-sm font-semibold text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 dark:border-white/10 dark:bg-zinc-950 dark:text-white">
+                                    </div>
+                                    <input type="hidden" id="pin-code" name="pin_code" value="">
                                 </div>
                             @else
                                 <div class="mt-5 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-zinc-400">
@@ -223,6 +229,57 @@
             const searchBanks = () => { const query = bankSearch.value.trim().toLowerCase(); bankName.value = ''; bankCode.value = ''; selectedBank = null; setResolvedState(false); if (!query) return hideSuggestions(); const matches = banks.filter((bank) => bank.name.toLowerCase().includes(query) || String(bank.code || '').toLowerCase().includes(query)).slice(0, 8); renderSuggestions(matches); if (matches.length === 1) chooseBank(matches[0]); };
             const maybeResolve = async () => { const account = digitsOnly(accountNumber.value).slice(0, 10); accountNumber.value = account; if (!selectedBank || account.length !== 10) return setResolvedState(false, selectedBank ? 'Enter all 10 digits to resolve this account.' : 'Choose a bank and enter a 10-digit account number to start.'); const currentSequence = ++resolveSequence; resolveIndicator.classList.remove('hidden'); resolveIndicator.classList.add('inline-flex'); resolveStatus.textContent = 'Resolving account details...'; try { const response = await window.axios.post(resolveUrl, { bank_name: selectedBank.name, bank_code: selectedBank.code || '', account_number: account }); if (currentSequence !== resolveSequence) return; const data = response.data?.data || {}; accountName.value = data.account_name || ''; bankName.value = data.bank_name || selectedBank.name; bankCode.value = data.bank_code || selectedBank.code || ''; providerPreview.textContent = (data.resolved_by || 'provider').toUpperCase(); setResolvedState(true, `Account resolved successfully for ${accountName.value}.`); } catch (error) { if (currentSequence !== resolveSequence) return; const message = error?.response?.data?.message || 'Account resolution failed.'; setResolvedState(false, message); window.depayToast?.({ title: 'Resolve failed', message, tone: 'warning' }); } finally { if (currentSequence === resolveSequence) { resolveIndicator.classList.add('hidden'); resolveIndicator.classList.remove('inline-flex'); } } };
             bankSearch.addEventListener('input', searchBanks); bankSearch.addEventListener('focus', searchBanks); accountNumber.addEventListener('input', () => { setResolvedState(false, selectedBank ? 'Enter all 10 digits to resolve this account.' : 'Choose a bank and enter a 10-digit account number to start.'); maybeResolve(); }); amount.addEventListener('input', updateTotals); pinCode?.addEventListener('input', syncButtons);
+            
+            // PIN digit input auto-advance
+            const pinDigitInputs = document.querySelectorAll('.pin-digit-input');
+            const pinCodeField = document.getElementById('pin-code');
+            
+            pinDigitInputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    // Only allow numeric input
+                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                    
+                    // Auto-advance to next field
+                    if (e.target.value && index < pinDigitInputs.length - 1) {
+                        pinDigitInputs[index + 1].focus();
+                    }
+                    
+                    // Update hidden field with complete PIN
+                    const pinValue = Array.from(pinDigitInputs).map(inp => inp.value).join('');
+                    pinCodeField.value = pinValue;
+                    syncButtons();
+                });
+                
+                input.addEventListener('keydown', (e) => {
+                    // Handle backspace
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        pinDigitInputs[index - 1].focus();
+                    }
+                });
+                
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const paste = (e.clipboardData || window.clipboardData).getData('text');
+                    const digits = paste.replace(/[^0-9]/g, '').split('');
+                    
+                    digits.forEach((digit, i) => {
+                        if (index + i < pinDigitInputs.length) {
+                            pinDigitInputs[index + i].value = digit;
+                        }
+                    });
+                    
+                    // Focus last filled field
+                    const nextIndex = Math.min(index + digits.length, pinDigitInputs.length - 1);
+                    if (nextIndex < pinDigitInputs.length) {
+                        pinDigitInputs[nextIndex].focus();
+                    }
+                    
+                    // Update hidden field
+                    const pinValue = Array.from(pinDigitInputs).map(inp => inp.value).join('');
+                    pinCodeField.value = pinValue;
+                    syncButtons();
+                });
+            });
             step1Next.addEventListener('click', () => { if (!step1Next.disabled) showStep(2); }); step2Next.addEventListener('click', () => { if (!step2Next.disabled) showStep(3); }); document.querySelectorAll('[data-step-back]').forEach((button) => button.addEventListener('click', () => showStep(Number(button.dataset.stepBack))));
             document.addEventListener('click', (event) => { if (!suggestions.contains(event.target) && event.target !== bankSearch) hideSuggestions(); });
             updateTotals(); syncButtons(); showStep(1); if (selectedBank && digitsOnly(accountNumber.value).length === 10 && accountName.value.trim() !== '') { providerPreview.textContent = 'RESTORED'; setResolvedState(true, `Account resolved successfully for ${accountName.value}.`); }

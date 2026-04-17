@@ -1,133 +1,155 @@
 @extends('admin.layouts.app')
 
 @section('panel')
-<div class="space-y-6">
-    @if(request()->routeIs('admin.withdraw.log') || request()->routeIs('admin.withdraw.method') || request()->routeIs('admin.users.withdrawals') || request()->routeIs('admin.users.withdrawals.method'))
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="panel-card p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-zinc-400">@lang('Approved Withdrawals')</p>
-                        <p class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',1)->sum('amount') }}</p>
+    <div class="container-fluid">
+        @if(request()->routeIs('admin.withdraw.log') || request()->routeIs('admin.withdraw.method') || request()->routeIs('admin.users.withdrawals') || request()->routeIs('admin.users.withdrawals.method'))
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-lg-4 col-md-6 col-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="text-muted small">@lang('Approved Withdrawals')</p>
+                                    <h4 class="text-success mt-2">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',1)->sum('amount') }}</h4>
+                                </div>
+                                <span class="badge bg-success">
+                                    <i class="la la-check-circle la-2x"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3 3 0 0 1 0 6H6"></path></svg>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="text-muted small">@lang('Pending Withdrawal')</p>
+                                    <h4 class="text-warning mt-2">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',2)->sum('amount') }}</h4>
+                                </div>
+                                <span class="badge bg-warning">
+                                    <i class="la la-clock la-2x"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <p class="text-muted small">@lang('Rejected Withdrawals')</p>
+                                    <h4 class="text-danger mt-2">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',3)->sum('amount') }}</h4>
+                                </div>
+                                <span class="badge bg-danger">
+                                    <i class="la la-times-circle la-2x"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="panel-card p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-zinc-400">@lang('Pending Withdrawal')</p>
-                        <p class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',2)->sum('amount') }}</p>
-                    </div>
-                    <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-card p-6 rounded-2xl border border-slate-200 dark:border-white/10">
-                <div class="flex items-start justify-between">
-                    <div>
-                        <p class="text-sm font-medium text-slate-600 dark:text-zinc-400">@lang('Rejected Withdrawals')</p>
-                        <p class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{{ __($general->cur_sym) }}{{ $withdrawals->where('status',3)->sum('amount') }}</p>
-                    </div>
-                    <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">
-                        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
+        @endif
 
-    <!-- Withdrawals Table -->
-    <div class="panel-card rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden">
-        <div class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-6 py-4">
-            <h2 class="text-lg font-semibold text-slate-950 dark:text-white">@lang('Withdrawals')</h2>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5">
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Gateway | Trx')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Initiated')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('User')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Amount')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Conversion')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Status')</th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-zinc-400">@lang('Action')</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-white/10">
-                    @forelse($withdrawals as $withdraw)
-                        @php
-                            $details = ($withdraw->withdraw_information != null) ? json_encode($withdraw->withdraw_information) : null;
-                        @endphp
-                        <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                            <td class="px-6 py-4">
-                                <div>
-                                    <a href="{{ route('admin.withdraw.method',[$withdraw->method->id,'all']) }}" class="font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300">{{ __(@$withdraw->method->name) }}</a>
-                                    <p class="mt-1 text-sm text-slate-500 dark:text-zinc-400">{{ $withdraw->trx }}</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm">
-                                    <p class="font-medium text-slate-950 dark:text-white">{{ showDateTime($withdraw->created_at) }}</p>
-                                    <p class="mt-1 text-slate-500 dark:text-zinc-400">{{ diffForHumans($withdraw->created_at) }}</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div>
-                                    <p class="font-semibold text-slate-950 dark:text-white">{{ $withdraw->user?->fullname ?? 'N/A' }}</p>
-                                    @if($withdraw->user)
-                                        <a href="{{ route('admin.users.detail', $withdraw->user_id) }}" class="mt-1 text-sm text-sky-600 dark:text-sky-400 hover:text-sky-700">@{{ $withdraw->user->username }}</a>
-                                    @else
-                                        <p class="mt-1 text-sm text-slate-500 dark:text-zinc-400">User deleted</p>
-                                    @endif
-                                </div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm">
-                                    <p class="font-medium text-slate-950 dark:text-white">{{ __($general->cur_sym) }}{{ showAmount($withdraw->amount) }}</p>
-                                    <p class="mt-1 text-slate-500 dark:text-zinc-400">- <span class="text-red-600 dark:text-red-400">{{ showAmount($withdraw->charge) }}</span> charge</p>
-                                    <p class="mt-1 font-semibold text-slate-950 dark:text-white">{{ showAmount($withdraw->amount-$withdraw->charge) }} {{ __($general->cur_text) }}</p>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-slate-600 dark:text-zinc-400">
-                                <p>1 {{ __($general->cur_text) }} = {{ showAmount($withdraw->rate) }} {{ __($withdraw->currency) }}</p>
-                                <p class="mt-1 font-medium text-slate-950 dark:text-white">{{ showAmount($withdraw->final_amount) }} {{ __($withdraw->currency) }}</p>
-                            </td>
-                            <td class="px-6 py-4">
-                                @if($withdraw->status == 2)
-                                    <span class="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">@lang('Pending')</span>
-                                @elseif($withdraw->status == 1)
-                                    <span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">@lang('Approved')</span>
-                                    <p class="mt-1 text-xs text-slate-500 dark:text-zinc-400">{{ diffForHumans($withdraw->updated_at) }}</p>
-                                @elseif($withdraw->status == 3)
-                                    <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700 dark:bg-red-900/30 dark:text-red-400">@lang('Rejected')</span>
-                                    <p class="mt-1 text-xs text-slate-500 dark:text-zinc-400">{{ diffForHumans($withdraw->updated_at) }}</p>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4">
-                                <a href="{{ route('admin.withdraw.details', $withdraw->id) }}" class="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1.5 text-xs font-semibold text-sky-700 transition hover:bg-sky-200 dark:bg-sky-900/30 dark:text-sky-400 dark:hover:bg-sky-900/50">
-                                    View
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td class="px-6 py-8 text-center text-slate-500 dark:text-zinc-400" colspan="7">{{ __($emptyMessage) }}</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        <div class="border-t border-slate-200 dark:border-white/10 px-6 py-4">
-            {{ paginateLinks($withdrawals) }}
+        <!-- Withdrawals Table -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">@lang('Withdrawals')</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>@lang('Gateway | Trx')</th>
+                                        <th class="d-none d-md-table-cell">@lang('Initiated')</th>
+                                        <th>@lang('User')</th>
+                                        <th class="d-none d-lg-table-cell">@lang('Amount')</th>
+                                        <th class="d-none d-xl-table-cell">@lang('Conversion')</th>
+                                        <th class="text-center">@lang('Status')</th>
+                                        <th class="text-center">@lang('Action')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($withdrawals as $withdraw)
+                                        @php
+                                            $details = ($withdraw->withdraw_information != null) ? json_encode($withdraw->withdraw_information) : null;
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <a href="{{ route('admin.withdraw.method',[$withdraw->method->id,'all']) }}" class="text-primary fw-bold">{{ __(@$withdraw->method->name) }}</a>
+                                                    <p class="mt-1 mb-0 small text-muted">{{ $withdraw->trx }}</p>
+                                                </div>
+                                            </td>
+                                            <td class="d-none d-md-table-cell">
+                                                <small>{{ showDateTime($withdraw->created_at) }}</small>
+                                                <br>
+                                                <small class="text-muted">{{ diffForHumans($withdraw->created_at) }}</small>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>{{ $withdraw->user?->fullname ?? 'N/A' }}</strong>
+                                                    @if($withdraw->user)
+                                                        <br>
+                                                        <a href="{{ route('admin.users.detail', $withdraw->user_id) }}" class="small text-primary">@{{ $withdraw->user->username }}</a>
+                                                    @else
+                                                        <br>
+                                                        <small class="text-muted">User deleted</small>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td class="d-none d-lg-table-cell">
+                                                <div>
+                                                    <strong class="text-success">{{ __($general->cur_sym) }}{{ showAmount($withdraw->amount) }}</strong>
+                                                    <br>
+                                                    <small class="text-danger">- {{ showAmount($withdraw->charge) }} charge</small>
+                                                    <br>
+                                                    <small><strong>{{ showAmount($withdraw->amount-$withdraw->charge) }} {{ __($general->cur_text) }}</strong></small>
+                                                </div>
+                                            </td>
+                                            <td class="d-none d-xl-table-cell">
+                                                <small>1 {{ __($general->cur_text) }} = {{ showAmount($withdraw->rate) }} {{ __($withdraw->currency) }}</small>
+                                                <br>
+                                                <strong>{{ showAmount($withdraw->final_amount) }} {{ __($withdraw->currency) }}</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                @if($withdraw->status == 2)
+                                                    <span class="badge bg-warning">@lang('Pending')</span>
+                                                @elseif($withdraw->status == 1)
+                                                    <span class="badge bg-success">@lang('Approved')</span>
+                                                    <br>
+                                                    <small class="text-muted">{{ diffForHumans($withdraw->updated_at) }}</small>
+                                                @elseif($withdraw->status == 3)
+                                                    <span class="badge bg-danger">@lang('Rejected')</span>
+                                                    <br>
+                                                    <small class="text-muted">{{ diffForHumans($withdraw->updated_at) }}</small>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                <a href="{{ route('admin.withdraw.details', $withdraw->id) }}" class="btn btn-sm btn-info">@lang('View')</a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td class="text-center text-muted py-4" colspan="7">{{ __($emptyMessage) }}</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        {{ paginateLinks($withdrawals) }}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 @endsection
 
 @push('breadcrumb-plugins')

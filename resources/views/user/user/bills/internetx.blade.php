@@ -153,57 +153,57 @@ function populatex() {
 
 	//SME
     if (s2.value == "SME" && s1.value == "01") {
-        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "SME" && s1.value == "02") {
-        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "SME" && s1.value == "03") {
-        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "SME" && s1.value == "04") {
-        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "SME" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     }
 	
 	//CG
     if (s2.value == "CG" && s1.value == "01") {
-        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG" && s1.value == "02") {
-        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG" && s1.value == "03") {
-        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG" && s1.value == "04") {
-        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "CG" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     }
 	
 	//CG_LITE
     if (s2.value == "CG_LITE" && s1.value == "01") {
-        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG_LITE" && s1.value == "02") {
-        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG_LITE" && s1.value == "03") {
-        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "CG_LITE" && s1.value == "04") {
-        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "CG_LITE" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     }
 	
 	//Awoof
     if (s2.value == "Awoof" && s1.value == "01") {
-        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Awoof" && s1.value == "02") {
-        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Awoof" && s1.value == "03") {
-        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Awoof" && s1.value == "04") {
-        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "Awoof" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     }
 	
 	//Direct
     if (s2.value == "Direct" && s1.value == "01") {
-        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($mtntypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Direct" && s1.value == "02") {
-        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($glotypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Direct" && s1.value == "03") {
-        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($airteltypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     } else if (s2.value == "Direct" && s1.value == "04") {
-        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}/{{$data['validity']}}"@endif @endforeach];
+        optionArray = ["|Select"@foreach($ninetypes as $data)@if($data['datatype'] == "Direct" && $data['status'] == "1" ), "{{$data['plan']}}|{{$data['network']}} - {{$data['name']}} - {{ $general->cur_sym }}{{$data['cost']}} - {{$data['datatype']}}"@endif @endforeach];
     }
 	
 	

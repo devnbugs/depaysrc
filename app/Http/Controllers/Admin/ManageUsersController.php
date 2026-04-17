@@ -267,19 +267,35 @@ class ManageUsersController extends Controller
     public function detail($id)
     {
         $pageTitle = 'User Detail';
-        $user = User::findOrFail($id);
+        
+        // Handle both numeric ID and encoded secure ID
+        $userId = is_numeric($id) ? $id : decodeSecureId($id, 'u');
+        
+        if (!$userId) {
+            abort(404, 'User not found');
+        }
+        
+        $user = User::findOrFail($userId);
         $totalInvest = Investment::where('user_id', $user->id)->sum('amount');
         $totalDeposit = Deposit::where('user_id',$user->id)->where('status',1)->sum('amount');
         $totalWithdraw = Withdrawal::where('user_id',$user->id)->where('status',1)->sum('amount');
         $totalTransaction = Transaction::where('user_id',$user->id)->count();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        return view('admin.users.detail', compact('pageTitle', 'user','totalDeposit','totalWithdraw','totalTransaction','countries', 'totalInvest'));
+        $secureId = encodeSecureId($user->id, 'u');
+        return view('admin.users.detail', compact('pageTitle', 'user','totalDeposit','totalWithdraw','totalTransaction','countries', 'totalInvest', 'secureId'));
     }
 
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        // Handle both numeric ID and encoded secure ID
+        $userId = is_numeric($id) ? $id : decodeSecureId($id, 'u');
+        
+        if (!$userId) {
+            abort(404, 'User not found');
+        }
+        
+        $user = User::findOrFail($userId);
 
         $countryData = json_decode(file_get_contents(resource_path('views/partials/country.json')));
 

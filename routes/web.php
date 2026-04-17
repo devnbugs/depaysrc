@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\WebhookController;
+use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\UsersController;
 use App\Events\WebhookReceived;
 use App\Http\Controllers\BetaController;
@@ -27,7 +27,7 @@ use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptions
 
 
 
-// Root Raoute Place Holder
+// Root Route Place Holder
 
 Route::post('check', function () {
     return response()->json(['message' => 'POST request works!']);
@@ -77,8 +77,7 @@ Route::namespace('Gateway')->prefix('ipn')->name('ipn.')->group(function () {
 | Start Admin Area
 |--------------------------------------------------------------------------
 */
- Route::namespace('Auth')->group(function ()
- {
+Route::namespace('Auth')->group(function () {
  Route::get('/register/{ref}', 'RegisterController@showform');
  });
 
@@ -563,8 +562,7 @@ Route::name('user.')->prefix('user')->group(function () {
 
             // KYC
             Route::get('verification/kyc', 'UserController@kyc')->name('kyc');
-            Route::post('verification/kyc', 'UserController@postkyc')->name('kycpost');
-			Route::post('verification/kyc', 'UserController@submitKyc')->name('submitkyc');
+            Route::post('verification/kyc', 'UserController@submitKyc')->name('submitkyc');
             Route::get('kyc-services', [KycSubscriptionController::class, 'index'])->name('kyc.services');
             Route::get('kyc/upgrade', [KycSubscriptionController::class, 'upgrade'])->name('kyc.upgrade');
             Route::post('kyc/upgrade', [KycSubscriptionController::class, 'subscribe'])->name('kyc.upgrade.process');
@@ -573,13 +571,13 @@ Route::name('user.')->prefix('user')->group(function () {
 
 
             // Support
-            Route::get('suport/request', 'UserController@support')->name('support');
-            Route::get('suport/create', 'UserController@supportnew')->name('ticket.open');
+            Route::get('support/request', 'UserController@support')->name('support');
+            Route::get('support/create', 'UserController@supportnew')->name('ticket.open');
             Route::post('support/create', 'UserController@supportpost')->name('ticket.create');
-            Route::get('suport/view/{id}', 'UserController@supportview')->name('ticket.view');
-            Route::post('suport/reply/{id}', 'UserController@supportMessageStore')->name('ticket.reply');
-            Route::get('suport/download/{id}', 'UserController@ticketDownload')->name('ticket.download');
-            Route::get('suport/delete/{id}', 'UserController@ticketDelete')->name('ticket.delete');
+            Route::get('support/view/{id}', 'UserController@supportview')->name('ticket.view');
+            Route::post('support/reply/{id}', 'UserController@supportMessageStore')->name('ticket.reply');
+            Route::get('support/download/{id}', 'UserController@ticketDownload')->name('ticket.download');
+            Route::get('support/delete/{id}', 'UserController@ticketDelete')->name('ticket.delete');
 
 
             // Deposit
@@ -682,7 +680,7 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('bill/waec/register/{id}', 'BillsController@waecregpost')->name('registerwaec');
             Route::get('bill/waec/result', 'BillsController@waecresult')->name('waec.result');
             Route::post('bill/waec/result/{id}', 'BillsController@resultwaecpost')->name('resultwaec');
-            Route::get('bill/.query/data', 'BillsController@queryData');
+            Route::get('bill/query/data', 'BillsController@queryData');
 
 
 

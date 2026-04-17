@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'CityPress'),
+    'name' => env('APP_NAME', 'DePay'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://citypress.serv00.net'),
+    'url' => env('APP_URL', 'http://onetera.serv00.net'),
 
     'asset_url' => env('ASSET_URL', null),
 

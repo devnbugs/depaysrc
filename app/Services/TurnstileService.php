@@ -98,7 +98,7 @@ class TurnstileService
      */
     public function getSiteKey(): string
     {
-        return config('services.cloudflare.turnstile_site_key', '');
+        return (string)(config('services.cloudflare.turnstile_site_key') ?? '');
     }
 
     /**
@@ -106,8 +106,10 @@ class TurnstileService
      */
     public function isEnabled(): bool
     {
-        return !empty($this->getSiteKey()) && 
-               !empty(config('services.cloudflare.turnstile_secret_key'));
+        $siteKey = config('services.cloudflare.turnstile_site_key');
+        $secretKey = config('services.cloudflare.turnstile_secret_key');
+        
+        return !empty($siteKey) && !empty($secretKey);
     }
 
     /**
@@ -115,7 +117,7 @@ class TurnstileService
      */
     public function getTheme(): string
     {
-        return config('services.cloudflare.turnstile_theme', 'auto');
+        return (string)(config('services.cloudflare.turnstile_theme') ?? 'auto');
     }
 
     /**

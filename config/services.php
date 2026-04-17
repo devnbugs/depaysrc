@@ -99,4 +99,10 @@ return [
         'recaptcha_secret_key' => env('CLOUDFLARE_RECAPTCHA_SECRET_KEY'),
     ],
 
+    'countly' => [
+        'enabled' => env('COUNTLY_ENABLED', false),
+        'server_url' => env('COUNTLY_SERVER_URL', 'https://your-countly-server.com'),
+        'app_key' => env('COUNTLY_APP_KEY', ''),
+    ],
+
 ];

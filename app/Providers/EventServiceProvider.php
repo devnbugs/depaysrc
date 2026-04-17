@@ -9,6 +9,10 @@ use HenryEjemuta\LaravelMonnify\Events\NewWebHookCallReceived;
 use App\Listeners\MonnifyNotificationListener;
 use Spatie\LaravelPasskeys\Events\PasskeyUsedToAuthenticateEvent;
 use App\Listeners\HandlePasskeyAuthentication;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Auth\Events\Logout;
+use Illuminate\Auth\Events\Failed;
+use App\Listeners\CountlyAuthListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,18 @@ class EventServiceProvider extends ServiceProvider
 		Registered::class => [
 			SendEmailVerificationNotification::class,
 			//    ... Other Event Registration
+		],
+
+		Login::class => [
+			[CountlyAuthListener::class, 'handleLogin'],
+		],
+
+		Logout::class => [
+			[CountlyAuthListener::class, 'handleLogout'],
+		],
+
+		Failed::class => [
+			[CountlyAuthListener::class, 'handleLoginFailed'],
 		],
 
 		NewWebHookCallReceived::class => [

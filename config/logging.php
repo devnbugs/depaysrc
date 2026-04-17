@@ -115,6 +115,12 @@ return [
         'path' => storage_path('logs/event_listener.log'),
         'level' => 'info', // Adjust the log level as needed
         ],
+        'countly' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/countly.log'),
+            'level' => env('COUNTLY_DEBUG', false) ? 'debug' : 'info',
+            'days' => 30,
+        ],
 
     ],
 
