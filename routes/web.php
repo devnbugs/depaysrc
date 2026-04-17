@@ -19,7 +19,6 @@ use App\Http\Controllers\Admin\KycServicesController as AdminKycServicesControll
 use App\Http\Controllers\PaystackWebhookController;
 use App\Http\Controllers\Paystack\ClientController;
 use App\Http\Controllers\Paystack\DVAController;
-use App\Http\Controllers\TurnstilePreclearanceController;
 use Spatie\LaravelPasskeys\Http\Controllers\AuthenticateUsingPasskeyController;
 use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptionsController;
 
@@ -33,11 +32,6 @@ use Spatie\LaravelPasskeys\Http\Controllers\GeneratePasskeyAuthenticationOptions
 Route::post('check', function () {
     return response()->json(['message' => 'POST request works!']);
 });
-
-// Turnstile preclearance (hidden)
-Route::get('/turnstile/preclearance', [TurnstilePreclearanceController::class, 'show'])->name('turnstile.preclearance.show');
-Route::post('/turnstile/preclearance/verify', [TurnstilePreclearanceController::class, 'verify'])->name('turnstile.preclearance.verify');
-
 
 Route::get('/status/easyaccess', [NetworkController::class, 'easyaccess']);
 Route::post('/paystack/webhook', [PaystackWebhookController::class, 'handle']);
