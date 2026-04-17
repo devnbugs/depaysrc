@@ -63,51 +63,52 @@
         </div>
     @endif
 
-    <style>
-        .invisible-turnstile-container {
-            position: relative;
-            min-height: 0;
-        }
-
-        #cf-invisible-turnstile {
-            display: none !important;
-            position: fixed;
-            left: -9999px;
-            top: -9999px;
-            width: 1px;
-            height: 1px;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        #security-alert {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .animate-spin {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
-
     @once
         @push('script-lib')
             <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+        @endpush
+        @push('style-lib')
+            <style>
+                .invisible-turnstile-container {
+                    position: relative;
+                    min-height: 0;
+                }
+
+                #cf-invisible-turnstile {
+                    display: none !important;
+                    position: fixed;
+                    left: -9999px;
+                    top: -9999px;
+                    width: 1px;
+                    height: 1px;
+                    visibility: hidden;
+                    pointer-events: none;
+                }
+
+                #security-alert {
+                    animation: slideIn 0.3s ease-out;
+                }
+
+                @keyframes slideIn {
+                    from {
+                        opacity: 0;
+                        transform: translateX(10px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+
+                .animate-spin {
+                    animation: spin 1s linear infinite;
+                }
+
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            </style>
         @endpush
     @endonce
 
