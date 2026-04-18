@@ -22,7 +22,7 @@
     </div>
 
     <section class="panel-card p-6 max-w-2xl">
-        <form action="{{ route('user.user.pin.set') }}" method="post" class="space-y-6">
+        <form action="{{ route('user.pin.set') }}" method="post" class="space-y-6">
             @csrf
 
             <div class="rounded-2xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-500/30 dark:bg-blue-900/10">
