@@ -37,7 +37,7 @@ class PinController extends Controller
 
         if ($user->isPinEnabled()) {
             $notify[] = ['error', 'PIN is already set and enabled.'];
-            return redirect()->route('user.user.pin.pin')->withNotify($notify);
+            return redirect()->route('user.pin.index')->withNotify($notify);
         }
 
         return view('user.user.pin.setup', compact('pageTitle', 'user'));
@@ -75,7 +75,7 @@ class PinController extends Controller
         ]);
 
         $notify[] = ['success', 'PIN set successfully. Your account is now more secure.'];
-        return redirect()->route('user.user.pin.pin')->withNotify($notify);
+        return redirect()->route('user.pin.index')->withNotify($notify);
     }
 
     /**
@@ -88,7 +88,7 @@ class PinController extends Controller
 
         if (!$user->isPinEnabled()) {
             $notify[] = ['error', 'You must set a PIN first.'];
-            return redirect()->route('user.user.pin.pin')->withNotify($notify);
+            return redirect()->route('user.pin.index')->withNotify($notify);
         }
 
         return view('user.user.pin.change', compact('pageTitle', 'user'));
@@ -140,7 +140,7 @@ class PinController extends Controller
         ]);
 
         $notify[] = ['success', 'PIN changed successfully.'];
-        return redirect()->route('user.user.pin.pin')->withNotify($notify);
+        return redirect()->route('user.pin.index')->withNotify($notify);
     }
 
     /**
@@ -189,7 +189,7 @@ class PinController extends Controller
         ]);
 
         $notify[] = ['success', 'PIN has been reset successfully.'];
-        return redirect()->route('user.user.pin.pin')->withNotify($notify);
+        return redirect()->route('user.pin.index')->withNotify($notify);
     }
 
     /**
@@ -202,7 +202,7 @@ class PinController extends Controller
 
         if (!$user->isPinEnabled()) {
             $notify[] = ['error', 'PIN is not currently enabled.'];
-            return redirect()->route('user.user.pin.pin')->withNotify($notify);
+            return redirect()->route('user.pin.index')->withNotify($notify);
         }
 
         return view('user.user.pin.disable', compact('pageTitle', 'user'));
@@ -245,7 +245,7 @@ class PinController extends Controller
         ]);
 
         $notify[] = ['success', 'PIN has been disabled. Your account is now secured with Two-Factor Authentication.'];
-        return redirect()->route('user.user.pin.pin')->withNotify($notify);
+        return redirect()->route('user.pin.index')->withNotify($notify);
     }
 
     /**

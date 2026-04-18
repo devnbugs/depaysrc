@@ -508,7 +508,7 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('change-password', 'UserController@submitPassword');
             
             //PIN PAGES
-            Route::get('/pin', 'PinController@index')->name('user.user.pin.pin');
+            Route::get('/pin', 'PinController@index')->name('user.pin.index');
             Route::get('/pin/setup', 'PinController@showSetupForm')->name('user.pin.setup');
             Route::post('/pin/set', 'PinController@setPin')->name('pin.set');
             Route::get('/pin/change', 'PinController@showChangeForm')->name('user.pin.change');

@@ -153,7 +153,7 @@
                     <div class="rounded-3xl border border-amber-200 bg-amber-50/90 p-4 text-amber-950 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-50">
                         <p class="font-semibold">Security check</p>
                         <p class="mt-2 text-sm leading-6">Your transaction PIN is not fully active yet. Set or enable it before making purchases.</p>
-                        <a href="{{ route('user.user.pin.pin') }}" class="mt-3 inline-flex h-10 items-center rounded-full bg-amber-500 px-4 text-sm font-semibold text-white transition hover:bg-amber-600">
+                        <a href="{{ route('user.pin.index') }}" class="mt-3 inline-flex h-10 items-center rounded-full bg-amber-500 px-4 text-sm font-semibold text-white transition hover:bg-amber-600">
                             Open PIN settings
                         </a>
                     </div>
