@@ -291,5 +291,15 @@
     @include('partials.btnlog')
     @include('partials.btnvox')
     @include('partials.plugins')
+    @push('script')
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-T524903Y5N"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-T524903Y5N');
+        </script>
+    @endpush
 </body>
 </html>
