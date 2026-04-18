@@ -9,7 +9,7 @@ use App\Models\EmailLog;
 use App\Models\EmailTemplate;
 use Carbon\Carbon;
 
-class TestEmailVerificationNoSend extends Command
+class TestEmailVerificationComplete extends Command
 {
     protected $signature = 'test:email-complete';
     protected $description = 'Complete test of email verification flow (without actual sending)';
