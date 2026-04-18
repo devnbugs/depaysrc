@@ -196,7 +196,7 @@
                             <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-zinc-400">
                                 Update your current transaction PIN to a new one.
                             </p>
-                            <a href="{{ route('user.pin.change') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
+                            <a href="{{ route('user.user.pin.change') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
                                 Change PIN
                             </a>
                         </div>
@@ -207,7 +207,7 @@
                             <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-zinc-400">
                                 If you've forgotten your PIN, you can reset it here.
                             </p>
-                            <a href="{{ route('user.pin.reset') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-white/5">
+                            <a href="{{ route('user.user.pin.reset') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-white/10 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-white/5">
                                 Reset PIN
                             </a>
                         </div>
@@ -219,7 +219,7 @@
                         <p class="mt-2 text-sm leading-6 text-rose-900 dark:text-rose-200">
                             Remove transaction PIN protection from your account. You'll need to enable PIN or 2FA before removing this.
                         </p>
-                        <a href="{{ route('user.pin.disable') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full border border-rose-200 bg-white px-6 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 dark:border-rose-500/30 dark:bg-zinc-950 dark:text-rose-300 dark:hover:bg-rose-500/10">
+                        <a href="{{ route('useruser.pin.disable') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full border border-rose-200 bg-white px-6 text-sm font-semibold text-rose-700 transition hover:bg-rose-50 dark:border-rose-500/30 dark:bg-zinc-950 dark:text-rose-300 dark:hover:bg-rose-500/10">
                             Disable PIN
                         </a>
                     </div>
@@ -249,7 +249,7 @@
                         <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-zinc-400">
                             Create a 4-6 digit PIN that you'll use to authorize transactions on your account.
                         </p>
-                        <a href="{{ route('user.pin.setup') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
+                        <a href="{{ route('user.user.pin.setup') }}" class="mt-4 inline-flex h-11 w-full items-center justify-center rounded-full bg-sky-600 px-6 text-sm font-semibold text-white transition hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600">
                             Setup PIN
                         </a>
                     </div>

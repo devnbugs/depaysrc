@@ -33,7 +33,7 @@ class VerifyAuthenticationForPayment
                 ], 403);
             }
             
-            return redirect()->route('user.pin.index')
+            return redirect()->route('user.user.pin.index')
                 ->with('error', 'You must enable either PIN or 2FA to make payments');
         }
 
