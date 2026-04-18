@@ -75,7 +75,7 @@ class PinController extends Controller
         ]);
 
         $notify[] = ['success', 'PIN set successfully. Your account is now more secure.'];
-        return redirect()->route('user.pin.index')->withNotify($notify);
+        return redirect()->route('user.user.pin.index')->withNotify($notify);
     }
 
     /**
