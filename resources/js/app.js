@@ -1,6 +1,8 @@
 import axios from 'axios';
 import $ from 'jquery';
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
+import { initializeApp } from "firebase/app";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 window.axios = axios;
 window.$ = window.jQuery = $;
@@ -773,3 +775,21 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAQFKNcCinBRuy2EK5ZNkbtyv5dRbQkSfY",
+    authDomain: "depay-prod.firebaseapp.com",
+    projectId: "depay-prod",
+    storageBucket: "depay-prod.firebasestorage.app",
+    messagingSenderId: "361119565907",
+    appId: "1:361119565907:web:6856230cf1a148f88a1ea6",
+    measurementId: "G-T524903Y5N"
+};
+
+const app = initializeApp(firebaseConfig);
+
+isSupported().then((supported) => {
+    if (supported) {
+        getAnalytics(app);
+    }
+});
