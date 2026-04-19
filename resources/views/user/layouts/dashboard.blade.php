@@ -50,6 +50,7 @@
             ['label' => 'Deposit', 'route' => 'user.deposit', 'icon' => 'wallet'],
             ['label' => 'Cards', 'route' => 'user.vcard', 'icon' => 'card'],
             ['label' => 'Transfer', 'route' => 'user.othertransfer', 'icon' => 'send'],
+            ['label' => 'Interbank Transfer', 'route' => 'user.dpay.index', 'icon' => 'send'],
             ['label' => 'Data', 'route' => 'user.internet', 'icon' => 'wifi'],
             ['label' => 'Airtime', 'route' => 'user.airtime', 'icon' => 'phone'],
             ['label' => 'Cable TV', 'route' => 'user.cabletv', 'icon' => 'tv'],

@@ -671,7 +671,7 @@ Route::name('user.')->prefix('user')->group(function () {
             // Dpay Interbank Transfer
             Route::get('/dpay-transfer', [\App\Http\Controllers\DpayTransferController::class, 'index'])->name('dpay.index');
             Route::post('/dpay-transfer/resolve', [\App\Http\Controllers\DpayTransferController::class, 'resolve'])->name('dpay.resolve');
-            Route::post('/dpay-transfer', [\App\Http\Controllers\DpayTransferController::class, 'submit'])->name('dpay.submit');
+            Route::post('/dpay-transfer/submit', [\App\Http\Controllers\DpayTransferController::class, 'submit'])->name('dpay.submit');
             Route::get('/dpay-transfer/preview', [\App\Http\Controllers\DpayTransferController::class, 'preview'])->name('dpay.preview');
             Route::post('/dpay-transfer/confirm', [\App\Http\Controllers\DpayTransferController::class, 'confirm'])->name('dpay.confirm');
 

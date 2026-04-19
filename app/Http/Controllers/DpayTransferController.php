@@ -47,7 +47,7 @@ class DpayTransferController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view($this->activeTemplate . 'user.transfer.dpay', compact(
+        return view($this->activeTemplate . 'transfer.dpay', compact(
             'pageTitle',
             'user',
             'general',
@@ -234,7 +234,7 @@ class DpayTransferController extends Controller
         $user = Auth::user();
         $general = gs();
 
-        return view($this->activeTemplate . 'user.transfer.dpay-preview', compact(
+        return view($this->activeTemplate . 'transfer.dpay-preview', compact(
             'pageTitle',
             'user',
             'general',
