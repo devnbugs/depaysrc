@@ -155,40 +155,20 @@
 
 @push('breadcrumb-plugins')
     @if(!request()->routeIs('admin.users.deposits') && !request()->routeIs('admin.users.deposits.method'))
-        <form action="{{route('admin.deposit.search', $scope ?? str_replace('admin.deposit.', '', request()->route()->getName()))}}" method="GET" class="d-flex gap-2 mb-2">
+        <form action="{{ route('admin.deposit.search', $scope ?? str_replace('admin.deposit.', '', request()->route()->getName())) }}" method="GET" class="d-flex gap-2 mb-2">
             <input type="text" name="search" class="form-control form-control-sm" placeholder="@lang('Trx number/Username')" value="{{ $search ?? '' }}">
             <button type="submit" class="btn btn-sm btn-primary">
                 <i class="la la-search"></i>
             </button>
         </form>
 
-        <form action="{{route('admin.deposit.dateSearch',$scope ?? str_replace('admin.deposit.', '', request()->route()->getName()))}}" method="GET" class="d-flex gap-2">
-            <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en" class="form-control form-control-sm datepicker-here" data-position='bottom right' placeholder="@lang('Min date - Max date')" autocomplete="off" value="{{ @$dateSearch }}">
-        </div>
-            </div>
-        </div>
-    </div>
-
-@endsection
-
-@push('breadcrumb-plugins')
-    @if(!request()->routeIs('admin.users.deposits') && !request()->routeIs('admin.users.deposits.method'))
-        <form action="{{route('admin.deposit.search', $scope ?? str_replace('admin.deposit.', '', request()->route()->getName()))}}" method="GET" class="d-flex gap-2 mb-2">
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="@lang('Trx number/Username')" value="{{ $search ?? '' }}">
-            <button type="submit" class="btn btn-sm btn-primary">
-                <i class="la la-search"></i>
-            </button>
-        </form>
-
-        <form action="{{route('admin.deposit.dateSearch',$scope ?? str_replace('admin.deposit.', '', request()->route()->getName()))}}" method="GET" class="d-flex gap-2">
+        <form action="{{ route('admin.deposit.dateSearch', $scope ?? str_replace('admin.deposit.', '', request()->route()->getName())) }}" method="GET" class="d-flex gap-2">
             <input name="date" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="en" class="form-control form-control-sm datepicker-here" data-position='bottom right' placeholder="@lang('Min date - Max date')" autocomplete="off" value="{{ @$dateSearch }}">
             <input type="hidden" name="method" value="{{ @$methodAlias }}">
-                </div>
-                <button type="submit" class="inline-flex items-center rounded-full bg-sky-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-700 dark:bg-sky-700 dark:hover:bg-sky-800">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
-                </button>
-            </form>
-        </div>
+            <button type="submit" class="inline-flex items-center rounded-full bg-sky-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-sky-700 dark:bg-sky-700 dark:hover:bg-sky-800">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            </button>
+        </form>
     @endif
 @endpush
 
