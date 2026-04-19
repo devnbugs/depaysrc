@@ -1743,4 +1743,26 @@ if($rep['status'] == 'success')
         return back()->withNotify($notify);
     }
 
+    public function soon()
+    {
+        $pageTitle = 'Coming Soon';
+        $user = auth()->user();
+
+        return view('user.coming_soon', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function savings()
+    {
+        $pageTitle = 'New Savings Request';
+        $user = auth()->user();
+
+        return view('user.savings.create', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
 }

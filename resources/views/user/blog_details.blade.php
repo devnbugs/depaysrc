@@ -12,7 +12,7 @@
 						<img src="{{ getImage('assets/images/frontend/blog/'.$blog->data_values->blog_image_2,'800x800') }}" class="w-100">
 					</div>
 					<p class="mt-2">
-						@php echo $blog->data_values->description_nic @endphp
+						{!! $blog->data_values->description_nic ?? '' !!}
 					</p>
 				</div>
 			</div>
@@ -22,5 +22,5 @@
 </section>
 @endsection
 @push('fbComment')
-	@php echo loadFbComment() @endphp
+	{!! loadFbComment() !!}
 @endpush

@@ -437,7 +437,7 @@ class BetaController extends Controller
         // Your code for the real-time functionality goes here
         //return view('realtime.index'); // Replace 'realtime.index' with your actual view name
     }
-    public function depTrxLog()
+    public function depTrxLog(Request $request)
     {
         
         $pageTitle = 'Deposits History';
@@ -463,6 +463,106 @@ class BetaController extends Controller
         ));
         // Your code for the real-time functionality goes here
         //return view('realtime.index'); // Replace 'realtime.index' with your actual view name
+    }
+
+    public function indexAirpin()
+    {
+        $pageTitle = 'Airpin';
+        $user = auth()->user();
+
+        return view('user.user.beta.airpin', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexWaec()
+    {
+        $pageTitle = 'WAEC';
+        $user = auth()->user();
+
+        return view('user.user.beta.waec', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexNeco()
+    {
+        $pageTitle = 'NECO';
+        $user = auth()->user();
+
+        return view('user.user.beta.neco', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexJamb()
+    {
+        $pageTitle = 'JAMB';
+        $user = auth()->user();
+
+        return view('user.user.beta.jamb', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexNabteb()
+    {
+        $pageTitle = 'NABTEB';
+        $user = auth()->user();
+
+        return view('user.user.beta.nabteb', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexNbiss()
+    {
+        $pageTitle = 'NBISS';
+        $user = auth()->user();
+
+        return view('user.user.beta.nbiss', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexAirsell()
+    {
+        $pageTitle = 'Airsell';
+        $user = auth()->user();
+
+        return view('user.user.beta.airsell', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function indexUpgrade()
+    {
+        $pageTitle = 'Upgrade';
+        $user = auth()->user();
+
+        return view('user.user.beta.upgrade', compact(
+            'pageTitle',
+            'user'
+        ));
+    }
+
+    public function downloadReceipt($billId)
+    {
+        $user = auth()->user();
+        $bill = Bill::where('id', $billId)->where('user_id', $user->id)->firstOrFail();
+        
+        // Generate PDF
+        $pdf = PDF::loadView('user.user.beta.receipt', compact('bill', 'user'));
+        
+        // Download PDF
+        return $pdf->download('receipt-' . $billId . '.pdf');
     }
 
 }

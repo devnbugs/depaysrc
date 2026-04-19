@@ -45,29 +45,29 @@ Route::post('/ussd/callback', [UssdController::class, 'handleUssd']);
 |--------------------------------------------------------------------------
 */
 
-Route::namespace('Gateway')->prefix('ipn')->name('ipn.')->group(function () {
-    Route::post('paypal', 'Paypal\ProcessController@ipn')->name('Paypal');
-    Route::get('paypal-sdk', 'PaypalSdk\ProcessController@ipn')->name('PaypalSdk');
-    Route::post('perfect-money', 'PerfectMoney\ProcessController@ipn')->name('PerfectMoney');
-    Route::post('stripe', 'Stripe\ProcessController@ipn')->name('Stripe');
-    Route::post('stripe-js', 'StripeJs\ProcessController@ipn')->name('StripeJs');
-    Route::post('stripe-v3', 'StripeV3\ProcessController@ipn')->name('StripeV3');
-    Route::post('skrill', 'Skrill\ProcessController@ipn')->name('Skrill');
-    Route::post('paytm', 'Paytm\ProcessController@ipn')->name('Paytm');
-    Route::post('payeer', 'Payeer\ProcessController@ipn')->name('Payeer');
-    Route::post('paystack', 'Paystack\ProcessController@ipn')->name('Paystack');
-    Route::post('voguepay', 'Voguepay\ProcessController@ipn')->name('Voguepay');
-    Route::get('flutterwave/{trx}/{type}', 'Flutterwave\ProcessController@ipn')->name('Flutterwave');
-    Route::post('razorpay', 'Razorpay\ProcessController@ipn')->name('Razorpay');
-    Route::post('instamojo', 'Instamojo\ProcessController@ipn')->name('Instamojo');
-    Route::get('blockchain', 'Blockchain\ProcessController@ipn')->name('Blockchain');
-    Route::get('blockio', 'Blockio\ProcessController@ipn')->name('Blockio');
-    Route::post('coinpayments', 'Coinpayments\ProcessController@ipn')->name('Coinpayments');
-    Route::post('coinpayments-fiat', 'CoinpaymentsFiat\ProcessController@ipn')->name('CoinpaymentsFiat');
-    Route::post('coingate', 'Coingate\ProcessController@ipn')->name('Coingate');
-    Route::post('coinbase-commerce', 'CoinbaseCommerce\ProcessController@ipn')->name('CoinbaseCommerce');
-    Route::get('mollie', 'Mollie\ProcessController@ipn')->name('Mollie');
-    Route::post('cashmaal', 'Cashmaal\ProcessController@ipn')->name('Cashmaal');
+Route::prefix('ipn')->name('ipn.')->group(function () {
+    Route::post('paypal', [\App\Http\Controllers\Gateway\Paypal\ProcessController::class, 'ipn'])->name('Paypal');
+    Route::get('paypal-sdk', [\App\Http\Controllers\Gateway\PaypalSdk\ProcessController::class, 'ipn'])->name('PaypalSdk');
+    Route::post('perfect-money', [\App\Http\Controllers\Gateway\PerfectMoney\ProcessController::class, 'ipn'])->name('PerfectMoney');
+    Route::post('stripe', [\App\Http\Controllers\Gateway\Stripe\ProcessController::class, 'ipn'])->name('Stripe');
+    Route::post('stripe-js', [\App\Http\Controllers\Gateway\StripeJs\ProcessController::class, 'ipn'])->name('StripeJs');
+    Route::post('stripe-v3', [\App\Http\Controllers\Gateway\StripeV3\ProcessController::class, 'ipn'])->name('StripeV3');
+    Route::post('skrill', [\App\Http\Controllers\Gateway\Skrill\ProcessController::class, 'ipn'])->name('Skrill');
+    Route::post('paytm', [\App\Http\Controllers\Gateway\Paytm\ProcessController::class, 'ipn'])->name('Paytm');
+    Route::post('payeer', [\App\Http\Controllers\Gateway\Payeer\ProcessController::class, 'ipn'])->name('Payeer');
+    Route::post('paystack', [\App\Http\Controllers\Gateway\Paystack\ProcessController::class, 'ipn'])->name('Paystack');
+    Route::post('voguepay', [\App\Http\Controllers\Gateway\Voguepay\ProcessController::class, 'ipn'])->name('Voguepay');
+    Route::get('flutterwave/{trx}/{type}', [\App\Http\Controllers\Gateway\Flutterwave\ProcessController::class, 'ipn'])->name('Flutterwave');
+    Route::post('razorpay', [\App\Http\Controllers\Gateway\Razorpay\ProcessController::class, 'ipn'])->name('Razorpay');
+    Route::post('instamojo', [\App\Http\Controllers\Gateway\Instamojo\ProcessController::class, 'ipn'])->name('Instamojo');
+    Route::get('blockchain', [\App\Http\Controllers\Gateway\Blockchain\ProcessController::class, 'ipn'])->name('Blockchain');
+    Route::get('blockio', [\App\Http\Controllers\Gateway\Blockio\ProcessController::class, 'ipn'])->name('Blockio');
+    Route::post('coinpayments', [\App\Http\Controllers\Gateway\Coinpayments\ProcessController::class, 'ipn'])->name('Coinpayments');
+    Route::post('coinpayments-fiat', [\App\Http\Controllers\Gateway\CoinpaymentsFiat\ProcessController::class, 'ipn'])->name('CoinpaymentsFiat');
+    Route::post('coingate', [\App\Http\Controllers\Gateway\Coingate\ProcessController::class, 'ipn'])->name('Coingate');
+    Route::post('coinbase-commerce', [\App\Http\Controllers\Gateway\CoinbaseCommerce\ProcessController::class, 'ipn'])->name('CoinbaseCommerce');
+    Route::get('mollie', [\App\Http\Controllers\Gateway\Mollie\ProcessController::class, 'ipn'])->name('Mollie');
+    Route::post('cashmaal', [\App\Http\Controllers\Gateway\Cashmaal\ProcessController::class, 'ipn'])->name('Cashmaal');
 });
 
 
@@ -76,12 +76,12 @@ Route::namespace('Gateway')->prefix('ipn')->name('ipn.')->group(function () {
 | Start Admin Area
 |--------------------------------------------------------------------------
 */
-Route::namespace('Auth')->group(function () {
- Route::get('/register/{ref}', 'RegisterController@showform');
+Route::group(function () {
+ Route::get('/register/{ref}', [\App\Http\Controllers\Auth\RegisterController::class, 'showform']);
  });
 
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
     Route::namespace('Auth')->group(function () {
         Route::get('/login', 'LoginController@showLoginForm')->name('login');
         Route::get('/', 'LoginController@showLoginForm');
@@ -167,7 +167,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('user/login/{id}', 'ManageUsersController@login')->name('users.login');
         Route::get('user/transactions/{id}', 'ManageUsersController@transactions')->name('users.transactions');
         Route::get('user/deposits/{id}', 'ManageUsersController@deposits')->name('users.deposits');
-        Route::get('user/deposits/via/{method}/{type?}/{userId}', 'ManageUsersController@depositViaMethod')->name('users.deposits.method');
+        Route::get('user/deposits/via/{method}/{type?}/{userId}', 'ManageUsersController@depViaMethod')->name('users.deposits.method');
         Route::get('user/withdrawals/{id}', 'ManageUsersController@withdrawals')->name('users.withdrawals');
         Route::get('user/withdrawals/via/{method}/{type?}/{userId}', 'ManageUsersController@withdrawalsViaMethod')->name('users.withdrawals.method');
 

@@ -50,7 +50,7 @@ Route::prefix('v1')->name('v1.')->group(function () {
 | Legacy API Routes (Maintained for Backward Compatibility)
 |--------------------------------------------------------------------------
 */
-Route::namespace('Api')->name('api.')->group(function(){
+Route::name('api.')->namespace('Api')->group(function(){
 	Route::get('general-setting','BasicController@generalSetting');
 	Route::get('unauthenticate','BasicController@unauthenticate')->name('unauthenticate');
 	Route::get('languages','BasicController@languages');
