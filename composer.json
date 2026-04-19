@@ -12,6 +12,7 @@
         "africastalking/africastalking": "^3.0",
         "coingate/coingate-php": "^3.0",
         "ezyang/htmlpurifier": "^4.13",
+        "google/cloud-storage": "^1.51",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
         "laravel/framework": "^13.0",

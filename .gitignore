@@ -2,8 +2,8 @@
 # Laravel Core
 # =========================
 /vendor
-!/public/build
-!/public/hot
+/public/build
+/public/hot
 
 # Environment files
 .env
@@ -65,12 +65,16 @@ Thumbs.db
 *.log
 
 # =========================
-# Misc
+# Node/NPM
+# =========================
+/node_modules
+
+# =========================
+# Build outputs (keep documentation)
 # =========================
 *.zip
 *.tar
 *.gz
-*.md
 
 # =========================
 # Laravel Telescope / Debugbar (optional)
@@ -79,12 +83,65 @@ Thumbs.db
 /storage/debugbar
 
 # =========================
+# Public Storage Symlink
+# =========================
+/public/storage
+
+# =========================
 # SQLite (if used locally)
 # =========================
 database/database.sqlite
+database/*.sqlite
+database/*.sqlite-journal
 
 # =========================
-# Backup files
+# Backup & Temporary files
 # =========================
 *.bak
 *.backup
+*.tmp
+*.temp
+*~
+
+# =========================
+# System & Editor Temp Files
+# =========================
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# =========================
+# Local environment overrides
+# =========================
+.env.local
+.env.*.local
+
+# =========================
+# Testing artifacts
+# =========================
+coverage/
+.coverage
+
+# =========================
+# IDE Generated Files
+# =========================
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+# =========================
+# Vagrant & Docker
+# =========================
+.vagrant/
+Vagrantfile
+
+# =========================
+# Production-only exclusions
+# =========================
+.git/hooks/pre-commit.sample
+.git/hooks/pre-push.sample

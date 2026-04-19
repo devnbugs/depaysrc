@@ -92,7 +92,16 @@ class LoginController extends Controller
     {
         $login = request()->input('username');
 
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        // Determine if input is email, phone, or username
+        $fieldType = 'username'; // default
+        
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+            $fieldType = 'email';
+        } elseif (preg_match('/^[0-9+\-\s\(\)]+$/', $login) && strlen(preg_replace('/\D/', '', $login)) >= 10) {
+            // It's a phone number (contains only digits, +, -, spaces, or parentheses)
+            $fieldType = 'mobile';
+        }
+        
         request()->merge([$fieldType => $login]);
         return $fieldType;
     }

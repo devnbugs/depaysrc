@@ -1,0 +1,108 @@
+{
+  "name": "OneTera - Financial Services",
+  "short_name": "OneTera",
+  "description": "Digital payment and financial services platform for seamless transactions, bill payments, and wealth management",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "screenshots": [
+    {
+      "src": "/assets/pwa-screenshot-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/pwa-screenshot-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/maskable-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/maskable-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your account dashboard",
+      "url": "/user/dashboard",
+      "icons": [
+        {
+          "src": "/assets/icons/dashboard-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Send Money",
+      "short_name": "Send Money",
+      "description": "Send money to other users",
+      "url": "/transfer-Fund",
+      "icons": [
+        {
+          "src": "/assets/icons/transfer-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Pay Bills",
+      "short_name": "Pay Bills",
+      "description": "Pay your bills instantly",
+      "url": "/bill/airtime",
+      "icons": [
+        {
+          "src": "/assets/icons/bills-icon.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "screenshots_dark": [
+    {
+      "src": "/assets/pwa-screenshot-dark-1.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/pwa-screenshot-dark-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false
+}

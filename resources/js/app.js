@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
+import PWAManager from './pwa-manager.js';
 
 window.axios = axios;
 window.$ = window.jQuery = $;
@@ -793,3 +794,19 @@ isSupported().then((supported) => {
         getAnalytics(app);
     }
 });
+
+// Initialize PWA features
+window.pwaManager = new PWAManager();
+
+// Expose PWA API for use in templates and external scripts
+window.PWA = {
+    install: () => window.pwaManager.installApp(),
+    getStatus: () => window.pwaManager.getStatus(),
+    clearCache: () => window.pwaManager.clearCache(),
+    getCacheSize: () => window.pwaManager.getCacheSize(),
+    requestNotification: () => window.pwaManager.requestNotificationPermission(),
+    sendNotification: (title, options) => window.pwaManager.sendNotification(title, options),
+};
+
+// Log PWA status
+console.log('[App] PWA Status:', window.pwaManager.getStatus());

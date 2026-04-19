@@ -43,13 +43,21 @@ class ForgotPasswordController extends Controller
 
         \Session::flash('modal', '#resetModal');
 
-        // Determine field type
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        // Determine field type (email, username, or mobile)
+        $inputValue = $request->email;
+        $fieldType = 'username'; // default
         
-        $user = User::where($fieldType, $request->email)->first();
+        if (filter_var($inputValue, FILTER_VALIDATE_EMAIL)) {
+            $fieldType = 'email';
+        } elseif (preg_match('/^[0-9+\-\s\(\)]+$/', $inputValue) && strlen(preg_replace('/\D/', '', $inputValue)) >= 10) {
+            $fieldType = 'mobile';
+        }
+        
+        $user = User::where($fieldType, $inputValue)->first();
 
         if (!$user) {
-            $notify[] = ['error', 'User not found.'];
+            $fieldTypeLabel = $fieldType === 'email' ? 'Email' : ($fieldType === 'mobile' ? 'Phone Number' : 'Username');
+            $notify[] = ['error', "User not found with this {$fieldTypeLabel}."];
             \Session::flash('modalType', '#resetModal');
             return back()->withNotify($notify);
         }

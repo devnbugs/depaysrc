@@ -35,20 +35,33 @@ class ForgotPasswordController extends Controller
             ];
             $validationMessage = [
                 'value.required'=>'Email field is required',
-                'value.email'=>'Email must be an valide email'
+                'value.email'=>'Email must be a valid email'
             ];
-        }elseif($request->type == 'username'){
+            $fieldType = 'email';
+        } elseif($request->type == 'username') {
             $validationRule = [
                 'value'=>'required'
             ];
             $validationMessage = ['value.required'=>'Username field is required'];
-        }else{
+            $fieldType = 'username';
+        } elseif($request->type == 'phone') {
+            $validationRule = [
+                'value'=>'required|regex:/^[0-9+\-\s\(\)]+$/|min:10'
+            ];
+            $validationMessage = [
+                'value.required'=>'Phone number field is required',
+                'value.regex'=>'Phone number must contain valid phone characters',
+                'value.min'=>'Phone number must be at least 10 digits'
+            ];
+            $fieldType = 'mobile';
+        } else {
             return response()->json([
                 'code'=>200,
                 'status'=>'ok',
-                'message'=>['error'=>['Invalid selection']],
+                'message'=>['error'=>['Invalid selection. Allowed: email, username, phone']],
             ]);
         }
+        
         $validator = Validator::make($request->all(),$validationRule,$validationMessage);
         if ($validator->fails()) {
             return response()->json([
@@ -58,10 +71,11 @@ class ForgotPasswordController extends Controller
             ]);
         }
 
-        $user = User::where($request->type, $request->value)->first();
+        $user = User::where($fieldType, $request->value)->first();
         
         if (!$user) {
-            $notify[] = 'User not found.';
+            $typeLabel = $fieldType === 'email' ? 'Email' : ($fieldType === 'mobile' ? 'Phone Number' : 'Username');
+            $notify[] = "User not found with this {$typeLabel}.";
             return response()->json([
                 'code'=>200,
                 'status'=>'ok',

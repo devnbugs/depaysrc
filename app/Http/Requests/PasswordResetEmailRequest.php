@@ -14,16 +14,14 @@ class PasswordResetEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', 'in:email,username'],
-            'value' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'type.required' => 'Please select an option.',
-            'value.required' => 'Please provide your email or username.',
+            'email.required' => 'Please provide your email, username, or phone number.',
         ];
     }
 }

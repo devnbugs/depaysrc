@@ -157,6 +157,16 @@ function getNumber($length = 8)
 //moveable
 function uploadImage($file, $location, $size = null, $old = null, $thumb = null)
 {
+    // Try Google Cloud Storage first if enabled
+    $gcsService = app(\App\Services\GoogleCloudStorageService::class);
+    if ($gcsService->isEnabled()) {
+        $filename = $gcsService->uploadImage($file, $location, $size, $old, $thumb);
+        if ($filename) {
+            return $filename;
+        }
+        // Fall back to local/remote storage if GCS fails
+    }
+
     $filename = uniqid() . time() . '.' . $file->getClientOriginalExtension();
     $image = Image::make($file);
 
@@ -219,6 +229,16 @@ function uploadImage($file, $location, $size = null, $old = null, $thumb = null)
 }
 
 function uploadFile($file, $location, $size = null, $old = null){
+    // Try Google Cloud Storage first if enabled
+    $gcsService = app(\App\Services\GoogleCloudStorageService::class);
+    if ($gcsService->isEnabled()) {
+        $filename = $gcsService->uploadFile($file, $location, $old);
+        if ($filename) {
+            return $filename;
+        }
+        // Fall back to local storage if GCS fails
+    }
+
     $location = publicAssetPath($location);
     $path = makeDirectory($location);
     if (!$path) throw new Exception('File could not been created.');
@@ -257,6 +277,15 @@ function publicAssetPath($path)
     }
 
     return public_path($path);
+}
+
+/**
+ * Get general settings from database
+ * Returns the first (and typically only) GeneralSetting record
+ */
+function gs()
+{
+    return GeneralSetting::first();
 }
 
 function defaultLocaleCode()

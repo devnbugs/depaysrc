@@ -36,7 +36,7 @@ html.dark body {
     max-width: 100%;
     min-height: 100vh;
     background:
-        radial-gradient(circle at top, rgba(14, 165, 233, 0.12), transparent 36%),
+        radial-gradient(circle at top, rgba(161, 100, 62, 0.12), transparent 36%),
         linear-gradient(to bottom, #ffffff, #f8fafc);
 }
 
@@ -46,7 +46,7 @@ html.dark body {
 
 html.dark .app-shell {
     background:
-        radial-gradient(circle at top, rgba(59, 130, 246, 0.16), transparent 36%),
+        radial-gradient(circle at top, rgba(161, 100, 62, 0.16), transparent 36%),
         linear-gradient(to bottom, #09090b, #0f172a);
 }
 
@@ -105,15 +105,15 @@ html.dark .shell-link:hover {
 }
 
 .shell-link-active {
-    background-color: rgb(240 249 255);
-    color: rgb(3 105 161);
-    box-shadow: inset 0 0 0 1px rgb(186 230 253);
+    background-color: rgb(245 239 227);
+    color: rgb(107 68 35);
+    box-shadow: inset 0 0 0 1px rgb(222 167 88);
 }
 
 html.dark .shell-link-active {
-    background-color: rgba(14, 165, 233, 0.1);
-    color: rgb(125 211 252);
-    box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.3);
+    background-color: rgba(161, 100, 62, 0.1);
+    color: rgb(222 167 88);
+    box-shadow: inset 0 0 0 1px rgba(161, 100, 62, 0.3);
 }
 
 .shell-chip {
@@ -288,13 +288,13 @@ html.dark .app-toast-error {
 }
 
 .app-toast-info {
-    border-color: rgb(186 230 253);
-    background: rgba(240, 249, 255, 0.9);
+    border-color: rgb(222 167 88);
+    background: rgba(250, 245, 235, 0.9);
 }
 
 html.dark .app-toast-info {
-    border-color: rgba(14, 165, 233, 0.2);
-    background: rgba(14, 165, 233, 0.1);
+    border-color: rgba(161, 100, 62, 0.2);
+    background: rgba(161, 100, 62, 0.1);
 }
 
 .app-busy-overlay {
@@ -357,13 +357,13 @@ html.dark .app-busy-message {
     width: 2.5rem;
     border-radius: 9999px;
     border: 4px solid rgb(226 232 240);
-    border-top-color: rgb(14 165 233);
+    border-top-color: rgb(161 100 62);
     animation: app-spin 0.85s linear infinite;
 }
 
 html.dark .app-spinner {
     border-color: rgb(63 63 70);
-    border-top-color: rgb(56 189 248);
+    border-top-color: rgb(222 167 88);
 }
 
 .hero-surface {
@@ -372,8 +372,8 @@ html.dark .app-spinner {
     border-radius: 2rem;
     border: 1px solid rgba(226, 232, 240, 0.84);
     background:
-        radial-gradient(circle at top left, rgba(14, 165, 233, 0.12), transparent 32%),
-        radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(161, 100, 62, 0.12), transparent 32%),
+        radial-gradient(circle at top right, rgba(222, 167, 88, 0.12), transparent 28%),
         linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.92));
     box-shadow: 0 28px 90px rgba(15, 23, 42, 0.08);
 }
@@ -381,8 +381,8 @@ html.dark .app-spinner {
 html.dark .hero-surface {
     border-color: rgba(255, 255, 255, 0.08);
     background:
-        radial-gradient(circle at top left, rgba(59, 130, 246, 0.2), transparent 32%),
-        radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(161, 100, 62, 0.2), transparent 32%),
+        radial-gradient(circle at top right, rgba(222, 167, 88, 0.12), transparent 28%),
         linear-gradient(180deg, rgba(24, 24, 27, 0.98), rgba(9, 9, 11, 0.94));
     box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24);
 }
@@ -395,12 +395,12 @@ html.dark .hero-surface {
     height: 16rem;
     width: 16rem;
     border-radius: 9999px;
-    background: rgba(14, 165, 233, 0.08);
+    background: rgba(161, 100, 62, 0.08);
     filter: blur(18px);
 }
 
 html.dark .hero-surface::before {
-    background: rgba(59, 130, 246, 0.14);
+    background: rgba(161, 100, 62, 0.14);
 }
 
 .panel-card {
@@ -536,8 +536,8 @@ html.dark .stat-card[data-tone='slate'] {
 }
 
 .stat-card[data-tone='sky'] .stat-card-icon {
-    background: rgba(14, 165, 233, 0.12);
-    color: rgb(3 105 161);
+    background: rgba(161, 100, 62, 0.12);
+    color: rgb(107 68 35);
 }
 
 .stat-card[data-tone='emerald'] .stat-card-icon {
@@ -632,7 +632,7 @@ html.dark .stat-meta {
 
 .action-tile:hover {
     transform: translateY(-2px);
-    border-color: rgba(14, 165, 233, 0.22);
+    border-color: rgba(161, 100, 62, 0.22);
     box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 
@@ -658,7 +658,7 @@ html.dark .action-tile {
 }
 
 .action-tile[data-tone='sky'] .action-tile-icon {
-    background: linear-gradient(135deg, rgb(14 165 233), rgb(59 130 246));
+    background: linear-gradient(135deg, rgb(161 100 62), rgb(222 167 88));
 }
 
 .action-tile[data-tone='emerald'] .action-tile-icon {
@@ -796,11 +796,11 @@ html.dark .dashboard-record-meta {
 }
 
 .dashboard-account-card {
-    background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.09), transparent 38%), linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 250, 252, 0.9));
+    background: radial-gradient(circle at top right, rgba(161, 100, 62, 0.09), transparent 38%), linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(248, 250, 252, 0.9));
 }
 
 html.dark .dashboard-account-card {
-    background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 38%), linear-gradient(180deg, rgba(39, 39, 42, 0.94), rgba(24, 24, 27, 0.9));
+    background: radial-gradient(circle at top right, rgba(222, 167, 88, 0.12), transparent 38%), linear-gradient(180deg, rgba(39, 39, 42, 0.94), rgba(24, 24, 27, 0.9));
 }
 
 .dashboard-account-number {
@@ -954,8 +954,8 @@ html.dark .app-confirm-card {
 }
 
 .app-confirm-icon[data-tone='info'] {
-    background: rgba(14, 165, 233, 0.12);
-    color: rgb(3 105 161);
+    background: rgba(161, 100, 62, 0.12);
+    color: rgb(107 68 35);
 }
 
 html.dark .app-confirm-icon[data-tone='warning'],
@@ -1111,7 +1111,7 @@ html.dark .app-confirm-accept {
 }
 
 .app-confirm-overlay[data-tone='info'] .app-confirm-accept {
-    background: rgb(3 105 161);
+    background: rgb(107 68 35);
     color: #ffffff;
 }
 
@@ -1134,8 +1134,8 @@ html.dark .app-confirm-accept {
 
 .copy-chip:hover {
     transform: translateY(-1px);
-    border-color: rgba(14, 165, 233, 0.22);
-    background: rgba(240, 249, 255, 0.95);
+    border-color: rgba(161, 100, 62, 0.22);
+    background: rgba(245, 239, 227, 0.95);
 }
 
 html.dark .copy-chip {
@@ -1327,7 +1327,7 @@ html.dark #content.main-content textarea {
     width: 3rem;
     height: 3rem;
     border-radius: 1rem;
-    border-color: rgba(14, 165, 233, 0.22);
+    border-color: rgba(161, 100, 62, 0.22);
 }
 
 #content.main-content .pay-now img,
@@ -1460,17 +1460,17 @@ html.dark #content.main-content label.section-label {
     justify-content: center;
     min-height: 2.75rem;
     border-radius: 1rem;
-    border: 1px solid rgba(14, 165, 233, 0.2);
-    background: rgba(240, 249, 255, 0.95);
-    color: rgb(3 105 161);
+    border: 1px solid rgba(161, 100, 62, 0.2);
+    background: rgba(245, 239, 227, 0.95);
+    color: rgb(107 68 35);
     padding-inline: 1rem;
 }
 
 html.dark #content.main-content .input-group-text,
 html.dark #content.main-content .input-group-btn > .btn {
-    border-color: rgba(14, 165, 233, 0.28);
-    background: rgba(8, 47, 73, 0.5);
-    color: rgb(125 211 252);
+    border-color: rgba(161, 100, 62, 0.28);
+    background: rgba(107, 68, 35, 0.1);
+    color: rgb(222 167 88);
 }
 
 #content.main-content .btn {

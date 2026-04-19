@@ -22,7 +22,7 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.required' => 'Email or username is required.',
+            'username.required' => 'Email, username, or phone number is required.',
             'password.required' => 'Password is required.',
         ];
     }

@@ -290,6 +290,11 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
         Route::get('settings/local-transfer', [\App\Http\Controllers\Admin\LocalTransferSettingsController::class, 'index'])->name('local-transfer.settings');
         Route::post('settings/local-transfer', [\App\Http\Controllers\Admin\LocalTransferSettingsController::class, 'update'])->name('local-transfer.settings.update');
 
+        // Transaction Split Settings
+        Route::get('settings/transaction-split', [\App\Http\Controllers\Admin\TransactionSplitSettingsController::class, 'index'])->name('settings.transaction-split.index');
+        Route::put('settings/transaction-split', [\App\Http\Controllers\Admin\TransactionSplitSettingsController::class, 'update'])->name('settings.transaction-split.update');
+        Route::post('settings/transaction-split/test', [\App\Http\Controllers\Admin\TransactionSplitSettingsController::class, 'testSplit'])->name('settings.transaction-split.test');
+
 
          // COIN SYSTEM
         Route::name('coin.')->prefix('coin')->group(function(){
@@ -650,13 +655,25 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('/transfer-Fund/preview', 'UserController@usertransferpreview')->name('usertransfer.preview');
             Route::post('/transfer-Fund/preview', 'UserController@usertransfersend');
             Route::get('/deletebeneficiary/{id}', 'UserController@deletebeneficiary')->name('deletebeneficiary');
+            Route::post('/transfer/search-users', 'UserController@searchUsers')->name('search-users');
+            Route::get('/transfer/receipt/{id}', 'UserController@downloadReceipt')->name('transfer.receipt.download');
+            Route::post('/transfer/search-users', 'UserController@searchUsers')->name('search-users');
+            Route::get('/transfer/receipt/{id}', 'UserController@downloadReceipt')->name('transfer.receipt.download');
 
 
             Route::get('/other-transfer-Fund', [\App\Http\Controllers\LocalTransferController::class, 'index'])->name('othertransfer');
             Route::post('/other-transfer-Fund/resolve', [\App\Http\Controllers\LocalTransferController::class, 'resolve'])->name('othertransfer.resolve');
             Route::post('/other-transfer-Fund', [\App\Http\Controllers\LocalTransferController::class, 'submit']);
+            Route::post('/other-transfer-Fund/split-info', [\App\Http\Controllers\LocalTransferController::class, 'getSplitInfo'])->name('othertransfer.split-info');
             Route::get('/transfer-Other/preview', 'UserController@transferpreviewother')->name('transfer.previewother');
             Route::post('/transfer-Other/preview', 'UserController@transferpreviewothersubmit');
+
+            // Dpay Interbank Transfer
+            Route::get('/dpay-transfer', [\App\Http\Controllers\DpayTransferController::class, 'index'])->name('dpay.index');
+            Route::post('/dpay-transfer/resolve', [\App\Http\Controllers\DpayTransferController::class, 'resolve'])->name('dpay.resolve');
+            Route::post('/dpay-transfer', [\App\Http\Controllers\DpayTransferController::class, 'submit'])->name('dpay.submit');
+            Route::get('/dpay-transfer/preview', [\App\Http\Controllers\DpayTransferController::class, 'preview'])->name('dpay.preview');
+            Route::post('/dpay-transfer/confirm', [\App\Http\Controllers\DpayTransferController::class, 'confirm'])->name('dpay.confirm');
 
              //Blockchain Wallet
             Route::get('wallet/{id}','WalletController@wallet')->name('wallet');

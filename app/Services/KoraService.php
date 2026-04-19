@@ -58,4 +58,45 @@ class KoraService
             'verification_consent' => true,
         ]);
     }
+
+    /**
+     * Initiate Kora Liveness verification
+     * 
+     * @param string|int $userId Unique identifier for the user
+     * @param string $fullName User's full name
+     * @param string|null $secretKey
+     * @return mixed
+     */
+    public function initiateLiveness(string|int $userId, string $fullName, ?string $secretKey = null)
+    {
+        return $this->client($secretKey)->post('merchant/api/v1/liveness/initiate', [
+            'client_id' => (string) $userId,
+            'client_name' => $fullName,
+            'verification_consent' => true,
+        ]);
+    }
+
+    /**
+     * Check status of Kora Liveness verification
+     * 
+     * @param string $livenessId The liveness ID returned from initiate
+     * @param string|null $secretKey
+     * @return mixed
+     */
+    public function checkLivenessStatus(string $livenessId, ?string $secretKey = null)
+    {
+        return $this->client($secretKey)->get("merchant/api/v1/liveness/{$livenessId}/status");
+    }
+
+    /**
+     * Get liveness verification details
+     * 
+     * @param string $livenessId The liveness ID
+     * @param string|null $secretKey
+     * @return mixed
+     */
+    public function getLivenessDetails(string $livenessId, ?string $secretKey = null)
+    {
+        return $this->client($secretKey)->get("merchant/api/v1/liveness/{$livenessId}");
+    }
 }

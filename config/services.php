@@ -107,6 +107,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Google Cloud Storage Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure Google Cloud Storage for storing user uploads
+    | Including profile pictures and KYC documents
+    |
+    */
+    'gcs' => [
+        'enabled' => env('GCS_ENABLED', false),
+        'project_id' => env('GCS_PROJECT_ID'),
+        'bucket' => env('GCS_BUCKET'),
+        'key_file' => env('GCS_KEY_FILE'),
+        'cdn_url' => env('GCS_CDN_URL'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Payment Processing Configuration
     |--------------------------------------------------------------------------
     | 
@@ -138,6 +155,23 @@ return [
         'timeout' => env('ASYNC_TIMEOUT', 30),
         // Retry failed tasks
         'retries' => env('ASYNC_RETRIES', 3),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dpay Interbank Transfer Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure Dpay for interbank transfer services
+    | Supports phone number (default) and username resolution
+    |
+    */
+    'dpay' => [
+        'api_key' => env('DPAY_API_KEY'),
+        'base_url' => env('DPAY_BASE_URL', 'https://api.dpay.ng/api/v1/'),
+        'minimum' => (float) env('DPAY_MINIMUM', 100),
+        'maximum' => (float) env('DPAY_MAXIMUM', 1000000),
+        'enabled' => (bool) env('DPAY_ENABLED', false),
     ],
 
 ];

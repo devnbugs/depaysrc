@@ -1765,4 +1765,50 @@ if($rep['status'] == 'success')
         ));
     }
 
+    public function searchUsers(Request $request)
+    {
+        $query = $request->input('q');
+        
+        if (!$query || strlen($query) < 2) {
+            return response()->json(['results' => []]);
+        }
+
+        $users = User::where('username', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%')
+            ->where('id', '!=', Auth::id())
+            ->select('id', 'username', 'firstname', 'lastname', 'email')
+            ->limit(10)
+            ->get();
+
+        $results = $users->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'text' => $user->username . ' (' . $user->firstname . ' ' . $user->lastname . ')',
+                'username' => $user->username,
+                'email' => $user->email,
+                'name' => $user->firstname . ' ' . $user->lastname
+            ];
+        });
+
+        return response()->json(['results' => $results]);
+    }
+
+    public function downloadReceipt($id)
+    {
+        $transfer = Transfer::where('id', $id)
+            ->where(function ($query) {
+                $query->where('sender_id', Auth::id())
+                    ->orWhere('receiver_id', Auth::id());
+            })
+            ->first();
+
+        if (!$transfer) {
+            return abort(404);
+        }
+
+        $pageTitle = 'Transfer Receipt';
+        
+        return view('user.transfer.receipt', compact('transfer', 'pageTitle'));
+    }
+
 }
