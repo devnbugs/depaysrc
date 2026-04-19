@@ -8,6 +8,7 @@ use App\Models\TransferBeneficiary;
 use App\Models\User;
 use App\Services\LocalTransfers\LocalTransferManager;
 use App\Services\LocalTransfers\LocalTransferSettings;
+use App\Services\Transfers\TransactionSplitService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,12 @@ class LocalTransferController extends Controller
         $pageTitle = 'Local Bank Transfer';
         $user = Auth::user();
         $settings = $this->transferSettings->values();
+        $general = gs();
+        
+        // Get transaction split settings
+        $transactionSplitEnabled = (bool) $general->transaction_split_enabled ?? true;
+        $transactionSplitThreshold = (float) $general->transaction_split_threshold ?? 10000;
+        
         $banks = [];
         $bankLoadError = null;
 
@@ -51,7 +58,9 @@ class LocalTransferController extends Controller
             'log',
             'banks',
             'settings',
-            'bankLoadError'
+            'bankLoadError',
+            'transactionSplitEnabled',
+            'transactionSplitThreshold'
         ));
     }
 
@@ -88,6 +97,49 @@ class LocalTransferController extends Controller
                 'message' => $exception->getMessage(),
             ], 422);
         }
+    }
+
+    /**
+     * Get transaction split information for a given amount
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getSplitInfo(Request $request): JsonResponse
+    {
+        $request->validate([
+            'amount' => ['required', 'numeric', 'min:1'],
+        ]);
+
+        $amount = round((float) $request->input('amount'), 2);
+        $general = gs();
+        
+        // Check if transaction split is enabled
+        $transactionSplitEnabled = (bool) $general->transaction_split_enabled ?? true;
+        $transactionSplitThreshold = (float) $general->transaction_split_threshold ?? 10000;
+
+        if (!$transactionSplitEnabled) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'requires_split' => false,
+                    'message' => 'Transaction split is disabled.',
+                ],
+            ]);
+        }
+
+        $splitInfo = TransactionSplitService::calculateOptimalSplit(
+            $amount,
+            $transactionSplitThreshold
+        );
+
+        return response()->json([
+            'success' => true,
+            'data' => array_merge($splitInfo, [
+                'currency_symbol' => $general->cur_sym,
+                'currency_text' => $general->cur_text,
+            ]),
+        ]);
     }
 
     public function submit(Request $request)

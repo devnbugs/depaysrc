@@ -76,7 +76,7 @@ Route::prefix('ipn')->name('ipn.')->group(function () {
 | Start Admin Area
 |--------------------------------------------------------------------------
 */
-Route::group(function () {
+Route::group([], function () {
  Route::get('/register/{ref}', [\App\Http\Controllers\Auth\RegisterController::class, 'showform']);
  });
 
