@@ -3,7 +3,6 @@ import $ from 'jquery';
 import { startAuthentication, startRegistration } from '@simplewebauthn/browser';
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
-import PWAManager from './pwa-manager.js';
 
 window.axios = axios;
 window.$ = window.jQuery = $;
